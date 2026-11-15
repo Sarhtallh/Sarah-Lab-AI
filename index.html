@@ -1,257 +1,209 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#176b62">
 <title>Sarah Lab AI</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#f1f7f5;color:#193c38;font-family:Tahoma,Arial}
-header{background:#176b62;color:white;text-align:center;padding:28px 15px;border-radius:0 0 25px 25px}
-header h1{margin:0 0 10px}
-main{max-width:650px;margin:20px auto;padding:14px}
-.card{background:white;padding:19px;margin-bottom:16px;border-radius:17px;box-shadow:0 3px 12px #0001}
-h2{color:#176b62;font-size:19px}
+body{margin:0;background:#f1f6f5;font-family:Tahoma,Arial,sans-serif;color:#203b38}
+header{background:#176b62;color:white;text-align:center;padding:25px 15px}
+header h1{margin:0 0 8px}
+main{max-width:750px;margin:20px auto;padding:12px}
+.card{background:white;border-radius:15px;padding:20px;margin-bottom:18px;box-shadow:0 3px 12px #00000010}
+h2{color:#176b62;margin-top:0}
 p{line-height:1.8}
-button{background:#176b62;color:white;border:0;border-radius:10px;padding:13px;font-family:inherit;font-size:15px;cursor:pointer;width:100%;margin-top:10px}
-button.alt{background:#e5f1ed;color:#176b62}
-input,select,textarea{width:100%;padding:12px;border:1px solid #cbdcd7;border-radius:10px;font-family:inherit;font-size:15px;margin:7px 0;background:white}
-textarea{min-height:110px}
-label{display:block;margin-top:13px;font-weight:bold}
-.result{background:#edf7f3;padding:15px;border-radius:12px;margin-top:14px;line-height:2}
-.hidden{display:none}
-.choice{display:flex;align-items:center;gap:9px;font-weight:normal;margin:10px 0}
-.choice input{width:auto}
-.small{font-size:12px;color:#71827d;line-height:1.9}
-footer{text-align:center;color:#71827d;padding:20px;font-size:12px}
+label{display:block;margin:15px 0 7px;font-weight:bold}
+input[type=text],input[type=number],textarea,select{
+width:100%;padding:12px;border:1px solid #ccd9d6;
+border-radius:9px;font-size:16px;background:white
+}
+textarea{min-height:110px;resize:vertical}
+.question{padding:12px 0;border-bottom:1px solid #edf0ef}
+.question p{font-weight:bold;margin:0 0 10px}
+.option{display:inline-flex;align-items:center;gap:6px;margin:5px 15px 5px 0;font-weight:normal}
+button{background:#176b62;color:white;border:0;padding:13px 18px;border-radius:9px;font-size:16px;width:100%;margin-top:18px;cursor:pointer}
+button:active{opacity:.8}
+.result{display:none;background:#eaf5f1;border-right:5px solid #176b62;padding:15px;margin-top:18px;border-radius:9px;line-height:2}
+.warning{background:#fff4df;padding:12px;border-radius:9px;font-size:13px;line-height:1.8}
+footer{text-align:center;color:#71817e;font-size:12px;padding:20px}
 </style>
 </head>
 <body>
 
 <header>
-<h1>Sarah Lab AI 🌿</h1>
-<p>مساعدك الذكي لفهم المؤشرات الصحية</p>
-<p>نحو فهم أفضل لصحتك بطريقة علمية</p>
+<h1>Sarah Lab AI</h1>
+<p>مساعد التقييم الأولي لنقص العناصر الغذائية</p>
 </header>
 
 <main>
 
-<section class="card" id="home">
-<h2>مرحباً بك في Sarah Lab AI</h2>
-<p>اختَر القسم الذي يناسبك. يمكنك استخدام أي قسم بصورة مستقلة دون الحاجة إلى استخدام الأقسام الأخرى.</p>
-<button onclick="openSection('symptom')">القسم الأول: كتابة الأعراض</button>
-<button onclick="openSection('questions')">القسم الثاني: التقييم بالخيارات</button>
-<button onclick="openSection('labs')">القسم الثالث: تحليل نتائج المختبر</button>
-</section>
+<section class="card">
+<h2>القسم الأول: كتابة الأعراض</h2>
+<p>يمكنك كتابة الأعراض التي تشعر بها بحرية دون الحاجة إلى الإجابة عن أسئلة القسم الثاني.</p>
 
-<section class="card hidden" id="symptom">
-<button class="alt" onclick="goHome()">← الرئيسية</button>
-<h2>القسم الأول: تحليل الأعراض</h2>
-<p>اكتب الأعراض التي تعاني منها، وسنساعدك على استكشاف الاحتمالات والفحوصات التي قد تكون مناسبة.</p>
-<label>الجنس</label>
-<select id="sGender" onchange="cycleToggle('sGender','sCycleBox')">
-<option value="">اختر الجنس</option>
-<option value="male">ذكر</option>
-<option value="female">أنثى</option>
-</select>
-<label>العمر</label>
-<input id="sAge" type="number" min="1" max="120" placeholder="العمر">
-<div id="sCycleBox" class="hidden">
-<label>هل تعانين من غزارة الدورة الشهرية؟</label>
-<select id="sCycle">
-<option value="">اختياري</option>
-<option value="yes">نعم</option>
-<option value="no">لا</option>
-<option value="unknown">غير متأكدة</option>
-</select>
-</div>
-<label>اكتب الأعراض بالتفصيل</label>
-<textarea id="sText" placeholder="مثلاً: أعاني من التعب وتساقط الشعر والدوخة منذ شهرين..."></textarea>
-<button onclick="analyzeText()">تحليل الأعراض</button>
-<div id="sResult" class="result hidden"></div>
-</section>
+<label for="symptoms">اكتب الأعراض:</label>
+<textarea id="symptoms" placeholder="مثلاً: تعب مستمر، دوخة، تساقط الشعر، شحوب..."></textarea>
 
-<section class="card hidden" id="questions">
-<button class="alt" onclick="goHome()">← الرئيسية</button>
-<h2>القسم الثاني: التقييم الصحي بالخيارات</h2>
-<p>أجب عن الأسئلة التالية حسب حالتك.</p>
-<label>الجنس</label>
-<select id="qGender" onchange="cycleToggle('qGender','qCycleBox')">
-<option value="">اختر الجنس</option>
-<option value="male">ذكر</option>
-<option value="female">أنثى</option>
-</select>
-<label>العمر</label>
-<input id="qAge" type="number" min="1" max="120" placeholder="العمر">
-<div id="qCycleBox" class="hidden">
-<label>هل تعانين من غزارة الدورة الشهرية؟</label>
-<select id="qCycle">
-<option value="">اختياري</option>
-<option value="yes">نعم</option>
-<option value="no">لا</option>
-<option value="unknown">غير متأكدة</option>
-</select>
-</div>
-<div id="qList"></div>
-<button onclick="evaluateOptions()">عرض نتيجة التقييم</button>
-<div id="qResult" class="result hidden"></div>
-</section>
-
-<section class="card hidden" id="labs">
-<button class="alt" onclick="goHome()">← الرئيسية</button>
-<h2>القسم الثالث: نتائج التحاليل المختبرية</h2>
-<p>أدخل اسم الفحص والنتيجة والوحدة والمجال المرجعي المكتوب في تقرير المختبر.</p>
-<label>اسم الفحص</label>
-<input id="labName" placeholder="مثلاً Ferritin">
-<label>النتيجة</label>
-<input id="labValue" type="number" step="any" placeholder="القيمة">
-<label>الوحدة</label>
-<input id="labUnit" placeholder="مثلاً ng/mL">
-<label>المجال المرجعي حسب المختبر</label>
-<input id="labRange" placeholder="مثلاً 15 - 150">
-<button onclick="checkLab()">مراجعة البيانات</button>
-<div id="labResult" class="result hidden"></div>
-<p class="small">المراجعة هنا أولية؛ تفسير التحليل يحتاج إلى المجال المرجعي الصحيح والسياق الصحي الكامل.</p>
+<button type="button" onclick="evaluateSymptoms()">عرض تقييم الأعراض</button>
+<div id="symptomResult" class="result" aria-live="polite"></div>
 </section>
 
 <section class="card">
-<p class="small">
-تنبيه طبي: المعلومات تثقيفية وليست تشخيصاً طبياً. الأعراض وحدها لا تثبت وجود نقص. اختيار الفحوصات وتفسيرها يجب أن يكون وفق التقييم الطبي والمختبري.
+<h2>القسم الثاني: التقييم بالخيارات</h2>
+<p>أجب عن الأسئلة التالية للحصول على تقييم أولي مستقل.</p>
+
+<label for="age">العمر:</label>
+<input id="age" type="number" min="1" max="120" placeholder="أدخل العمر">
+
+<label for="gender">الجنس:</label>
+<select id="gender">
+<option value="">اختر</option>
+<option value="female">أنثى</option>
+<option value="male">ذكر</option>
+</select>
+
+<div class="question">
+<p>1- هل تشعر بالتعب والإرهاق المستمر؟</p>
+<label class="option"><input type="radio" name="q1" value="1"> نعم</label>
+<label class="option"><input type="radio" name="q1" value="0"> لا</label>
+</div>
+
+<div class="question">
+<p>2- هل تعاني من الدوخة أو الصداع المتكرر؟</p>
+<label class="option"><input type="radio" name="q2" value="1"> نعم</label>
+<label class="option"><input type="radio" name="q2" value="0"> لا</label>
+</div>
+
+<div class="question">
+<p>3- هل تعاني من تساقط الشعر؟</p>
+<label class="option"><input type="radio" name="q3" value="1"> نعم</label>
+<label class="option"><input type="radio" name="q3" value="0"> لا</label>
+</div>
+
+<div class="question">
+<p>4- هل تلاحظ شحوب البشرة؟</p>
+<label class="option"><input type="radio" name="q4" value="1"> نعم</label>
+<label class="option"><input type="radio" name="q4" value="0"> لا</label>
+</div>
+
+<div class="question">
+<p>5- هل تشعر بضيق التنفس عند بذل مجهود بسيط؟</p>
+<label class="option"><input type="radio" name="q5" value="1"> نعم</label>
+<label class="option"><input type="radio" name="q5" value="0"> لا</label>
+</div>
+
+<div class="question">
+<p>6- هل تعاني من خفقان القلب؟</p>
+<label class="option"><input type="radio" name="q6" value="1"> نعم</label>
+<label class="option"><input type="radio" name="q6" value="0"> لا</label>
+</div>
+
+<div class="question">
+<p>7- هل أظافرك ضعيفة أو سهلة التكسر؟</p>
+<label class="option"><input type="radio" name="q7" value="1"> نعم</label>
+<label class="option"><input type="radio" name="q7" value="0"> لا</label>
+</div>
+
+<div class="question">
+<p>8- هل تتناول أغذية غنية بالحديد بصورة منتظمة؟</p>
+<label class="option"><input type="radio" name="q8" value="0"> نعم</label>
+<label class="option"><input type="radio" name="q8" value="1"> لا</label>
+</div>
+
+<div class="question">
+<p>9- هل تعاني من غزارة الدورة الشهرية؟ (للإناث)</p>
+<label class="option"><input type="radio" name="q9" value="1"> نعم</label>
+<label class="option"><input type="radio" name="q9" value="0"> لا</label>
+<label class="option"><input type="radio" name="q9" value="0"> لا ينطبق</label>
+</div>
+
+<button type="button" onclick="evaluateOptions()">عرض نتيجة التقييم</button>
+<div id="optionResult" class="result" aria-live="polite"></div>
+</section>
+
+<section class="card">
+<h2>الفحوصات المختبرية المقترحة</h2>
+<ul>
+<li>CBC: صورة الدم الكاملة.</li>
+<li>Serum Ferritin: مخزون الحديد.</li>
+<li>Serum Iron: مستوى الحديد في الدم.</li>
+<li>TIBC: السعة الكلية لارتباط الحديد.</li>
+<li>Transferrin Saturation: نسبة تشبع الترانسفيرين.</li>
+</ul>
+<p class="warning">
+تنبيه طبي: هذا البرنامج أداة تثقيفية للتقييم الأولي وليس وسيلة لتشخيص الأمراض. الأعراض المذكورة قد تنتج عن أسباب متعددة، ولا يُنصح باستخدام مكملات الحديد دون تقييم طبي وفحوصات مناسبة.
 </p>
 </section>
+
 </main>
 
 <footer>Sarah Lab AI © 2026</footer>
 
 <script>
-function openSection(id){
-["home","symptom","questions","labs"].forEach(x=>{
-document.getElementById(x).classList.add("hidden");
-});
-document.getElementById(id).classList.remove("hidden");
-window.scrollTo(0,0);
-}
-function goHome(){openSection("home")}
-function cycleToggle(gender,box){
-let female=document.getElementById(gender).value==="female";
-document.getElementById(box).classList.toggle("hidden",!female);
-}
-
-const questions=[
-["التعب والإرهاق المتكرر","iron"],
-["الدوخة أو الصداع","iron"],
-["شحوب البشرة","iron"],
-["تساقط الشعر","iron"],
-["ضيق التنفس أو خفقان القلب مع المجهود","iron"],
-["قلة تناول اللحوم ومصادر الحديد","iron"],
-["آلام العظام","d"],
-["ضعف العضلات","d"],
-["قلة التعرض لأشعة الشمس","d"],
-["فقدان الشهية أو تغير الوزن","other"],
-["أعراض مستمرة في الجهاز الهضمي","other"]
-];
-const qList=document.getElementById("qList");
-questions.forEach((q,i)=>{
-qList.innerHTML+=`<label class="choice"><input type="checkbox" id="choice${i}">${q[0]}</label>`;
-});
-
-function getProfile(prefix){
-let gender=document.getElementById(prefix+"Gender").value;
-let age=Number(document.getElementById(prefix+"Age").value);
-if(!gender||!age||age<1||age>120){
-alert("يرجى إدخال الجنس والعمر بصورة صحيحة");
-return null;
-}
-return {gender,age};
-}
-
-function analyzeText(){
-let profile=getProfile("s");
-if(!profile)return;
-let txt=document.getElementById("sText").value.trim();
-if(txt.length<3){alert("يرجى كتابة الأعراض");return;}
-let t=txt.toLowerCase();
-let findings=[];
-let tests=[];
-if(/تعب|ارهاق|دوخ|شحوب|تساقط|خفقان|تنفس|حديد|دورة|نزف/.test(t)){
-findings.push("نقص الحديد أو فقر الدم من الاحتمالات التي قد تستحق الاستقصاء.");
-tests.push("CBC","Ferritin");
-}
-if(/عظام|عضلات|شمس|ضعف|الم العظام/.test(t)){
-findings.push("قد يستحق تقييم حالة فيتامين D.");
-tests.push("25-OH Vitamin D");
-}
-if(/تنميل|وخز|خدر/.test(t)){
-findings.push("قد تكون هناك حاجة لتقييم فيتامين B12 وأسباب عصبية أو أخرى.");
-tests.push("Vitamin B12");
-}
-if(/برد|امساك|وزن|شهية|خفقان/.test(t)){
-findings.push("توجد أسباب أخرى محتملة، منها اضطرابات الغدة الدرقية بحسب بقية الأعراض.");
-tests.push("TSH عند وجود داعٍ سريري");
-}
-if(findings.length===0)findings.push("المعلومات الحالية غير كافية لتحديد احتمالات محددة. يلزم طرح أسئلة متابعة.");
-showResult("sResult","نتيجة الاستكشاف الأولي",findings,tests);
+function evaluateSymptoms(){
+ const input=document.getElementById("symptoms").value.trim();
+ const result=document.getElementById("symptomResult");
+ if(!input){
+  alert("يرجى كتابة الأعراض أولاً");
+  return;
+ }
+ const words=["تعب","ارهاق","إرهاق","دوخة","دوار","صداع","تساقط الشعر","شحوب","خفقان","ضيق التنفس","أظافر","تكسر"];
+ const found=words.filter(w=>input.includes(w));
+ result.style.display="block";
+ if(found.length){
+  result.innerHTML="<h3>نتيجة التقييم الأولي</h3>"+
+  "<p>تم رصد أعراض قد تتوافق مع نقص الحديد أو فقر الدم، لكنها لا تثبت وجودهما.</p>"+
+  "<p><b>الأعراض التي تم التعرف عليها:</b> "+found.join("، ")+"</p>"+
+  "<p><b>الفحوصات المقترحة:</b> CBC وFerritin وSerum Iron وTIBC.</p>"+
+  "<p>ينبغي تقييم الأعراض مع مختص، فقد تكون لها أسباب أخرى.</p>";
+ }else{
+  result.innerHTML="<h3>نتيجة التقييم</h3>"+
+  "<p>لم يتم التعرف على أعراض محددة من الكلمات المدخلة. هذا لا ينفي وجود نقص الحديد.</p>"+
+  "<p>يمكن مراجعة الفحوصات المختبرية عند وجود أعراض مستمرة.</p>";
+ }
 }
 
 function evaluateOptions(){
-let profile=getProfile("q");
-if(!profile)return;
-let selected=[];
-let categories={iron:0,d:0,other:0};
-questions.forEach((q,i)=>{
-if(document.getElementById("choice"+i).checked){
-selected.push(q[0]);categories[q[1]]++;
-}
-});
-if(selected.length===0){alert("يرجى اختيار عرض واحد على الأقل");return;}
-let findings=[],tests=[];
-if(categories.iron){
-findings.push("توجد أعراض قد تتوافق مع نقص الحديد أو فقر الدم، لكنها غير كافية للتأكيد.");
-tests.push("CBC","Ferritin");
-}
-if(categories.d){
-findings.push("توجد أعراض أو عوامل قد تستدعي تقييم فيتامين D.");
-tests.push("25-OH Vitamin D");
-}
-if(categories.other){
-findings.push("توجد أعراض عامة تحتاج إلى استيضاح الأسباب المحتملة.");
-tests.push("تُحدد الفحوصات الإضافية بعد معرفة تفاصيل الأعراض والتاريخ الصحي");
-}
-showResult("qResult","نتيجة التقييم الأولي",findings,tests,selected);
-}
-
-function showResult(id,title,findings,tests,selected=[]){
-let el=document.getElementById(id);
-el.innerHTML="<h3>"+title+"</h3>"+
-(selected.length?"<p><b>الأعراض المختارة:</b></p><ul>"+selected.map(x=>"<li>"+escapeHTML(x)+"</li>").join("")+"</ul>":"")+
-"<p><b>الاحتمالات التي تستحق الاستقصاء:</b></p><ul>"+findings.map(x=>"<li>"+escapeHTML(x)+"</li>").join("")+"</ul>"+
-"<p><b>فحوصات قد تكون مناسبة بعد التقييم الطبي:</b></p><ul>"+(tests.length?tests.map(x=>"<li>"+escapeHTML(x)+"</li>").join(""):"<li>تحدد بعد جمع معلومات إضافية</li>")+"</ul>"+
-"<p class='small'>هذه نتيجة تثقيفية أولية وليست تشخيصاً. لا يمكن تحديد النقص من الأعراض وحدها، وقد توجد أسباب أخرى.</p>";
-el.classList.remove("hidden");
-}
-
-function checkLab(){
-let name=document.getElementById("labName").value.trim();
-let value=document.getElementById("labValue").value;
-let unit=document.getElementById("labUnit").value.trim();
-let range=document.getElementById("labRange").value.trim();
-if(!name||value===""||!unit||!range){
-alert("يرجى إدخال جميع بيانات الفحص");
-return;
-}
-let el=document.getElementById("labResult");
-el.innerHTML="<h3>بيانات الفحص المسجلة</h3>"+
-"<p>الفحص: "+escapeHTML(name)+"</p>"+
-"<p>النتيجة: "+escapeHTML(value)+" "+escapeHTML(unit)+"</p>"+
-"<p>المجال المرجعي المدخل: "+escapeHTML(range)+"</p>"+
-"<p>تم تسجيل البيانات. لا نصدر حكماً بأن النتيجة طبيعية أو غير طبيعية دون قواعد مرجعية موثوقة ومراعاة العمر والجنس والحالة السريرية.</p>";
-el.classList.remove("hidden");
-}
-function escapeHTML(s){
-return String(s).replace(/[&<>"']/g,c=>({
-"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-}[c]));
+ const result=document.getElementById("optionResult");
+ const age=document.getElementById("age").value;
+ const gender=document.getElementById("gender").value;
+ if(!age || age<1 || age>120 || !gender){
+  alert("يرجى إدخال العمر والجنس");
+  return;
+ }
+ let score=0;
+ for(let i=1;i<=9;i++){
+  const answer=document.querySelector('input[name="q'+i+'"]:checked');
+  if(!answer){
+   alert("يرجى الإجابة عن جميع الأسئلة");
+   return;
+  }
+  score+=Number(answer.value);
+ }
+ let level="";
+ let advice="";
+ if(score<=2){
+  level="مؤشرات قليلة حسب الإجابات";
+  advice="الإجابات لا تظهر عدداً كبيراً من المؤشرات، لكنها لا تستبعد نقص الحديد.";
+ }else if(score<=5){
+  level="توجد بعض المؤشرات المحتملة";
+  advice="قد تستدعي الأعراض مراجعة الحالة وإجراء الفحوصات المختبرية.";
+ }else{
+  level="توجد عدة مؤشرات تستدعي التحقق";
+  advice="يُنصح بمراجعة مختص وإجراء الفحوصات لتحديد السبب.";
+ }
+ result.style.display="block";
+ result.innerHTML="<h3>نتيجة التقييم الأولي</h3>"+
+ "<p><b>العمر:</b> "+age+"</p>"+
+ "<p><b>عدد المؤشرات المسجلة:</b> "+score+" من 9</p>"+
+ "<p><b>التقييم:</b> "+level+"</p>"+
+ "<p>"+advice+"</p>"+
+ "<p><b>الفحوصات المقترحة:</b> CBC وFerritin وSerum Iron وTIBC.</p>"+
+ "<p>هذه النتيجة ليست تشخيصاً ولا تمثل احتمالاً طبياً محسوباً للإصابة.</p>";
+ result.scrollIntoView({behavior:"smooth",block:"center"});
 }
 </script>
 </body>
