@@ -5,1054 +5,199 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#176b62">
 <title>Sarah Lab AI</title>
-
 <style>
-*{box-sizing:border-box}
-
-body{
- margin:0;
- padding:16px;
- background:#f1f6f5;
- font-family:Tahoma,Arial,sans-serif;
- color:#203b38;
- line-height:1.8;
-}
-
-.container{max-width:850px;margin:auto}
-
-header{
- background:linear-gradient(135deg,#176b62,#27988a);
- color:white;
- padding:25px 18px;
- border-radius:18px;
- text-align:center;
- margin-bottom:18px;
-}
-
-header h1{margin:0;font-size:26px}
-header p{margin:5px 0 0}
-
-.card{
- background:white;
- border-radius:15px;
- padding:19px;
- margin-bottom:17px;
- box-shadow:0 3px 12px #0000000c;
-}
-
-h2{color:#176b62;font-size:19px;margin-top:0}
-h3{color:#176b62}
-
-label{display:block;margin:9px 0}
-
-input[type=text],
-input[type=number],
-select,textarea{
- width:100%;
- padding:12px;
- border:1px solid #ccdcd8;
- border-radius:9px;
- font-family:inherit;
- font-size:15px;
- margin:5px 0 12px;
- background:white;
-}
-
-textarea{min-height:110px;resize:vertical}
-
-.question{
- border-bottom:1px solid #e8efed;
- padding:10px 0;
-}
-
-.question-title{font-weight:bold;margin-bottom:5px}
-
-.options{
- display:flex;
- flex-wrap:wrap;
- gap:20px;
-}
-
-.options label{
- display:flex;
- align-items:center;
- gap:6px;
-}
-
-input[type=radio]{accent-color:#176b62}
-
-button{
- width:100%;
- background:#176b62;
- color:white;
- border:0;
- border-radius:10px;
- padding:13px;
- font-size:16px;
- font-family:inherit;
- font-weight:bold;
- cursor:pointer;
- margin-top:10px;
-}
-
-button:active{opacity:.8}
-
-.result{
- display:none;
- background:#f1f8f6;
- border:1px solid #c9e2dc;
- border-radius:12px;
- padding:15px;
- margin-top:15px;
- overflow-wrap:anywhere;
-}
-
-.data-item{
- background:white;
- border:1px solid #dce9e5;
- border-radius:9px;
- padding:12px;
- margin:10px 0;
-}
-
-.status{
- background:#edf6f4;
- border-radius:9px;
- padding:12px;
- font-size:13px;
- margin-top:10px;
- overflow-wrap:anywhere;
-}
-
-.warning{
- background:#fff7e8;
- border-right:4px solid #d69b32;
- padding:12px;
- border-radius:8px;
- font-size:13px;
- margin-top:15px;
-}
-
-.footer{
- text-align:center;
- color:#6d8580;
- font-size:12px;
- padding:15px;
-}
-
-.section-note{
- color:#668079;
- font-size:13px;
-}
-
-.database-title{
- color:#176b62;
- font-weight:bold;
-}
-
+*{box-sizing:border-box}body{margin:0;padding:15px;background:#f1f6f5;font-family:Tahoma,Arial,sans-serif;color:#203b38;line-height:1.8}
+.container{max-width:900px;margin:auto}header{background:linear-gradient(135deg,#176b62,#27988a);color:#fff;padding:24px 16px;border-radius:17px;text-align:center;margin-bottom:17px}
+header h1{margin:0;font-size:27px}.card{background:#fff;border-radius:15px;padding:18px;margin:15px 0;box-shadow:0 3px 12px #0000000c}
+h2,h3{color:#176b62;margin-top:0}h2{font-size:19px}label{display:block;margin:8px 0}
+input[type=text],input[type=number],select,textarea{width:100%;padding:12px;border:1px solid #ccdcd8;border-radius:9px;font:inherit;margin:5px 0 12px;background:#fff}
+textarea{min-height:105px}button{width:100%;background:#176b62;color:#fff;border:0;border-radius:10px;padding:13px;font: bold 16px Tahoma;cursor:pointer;margin-top:8px}
+.status,.notice{background:#edf6f4;border-radius:9px;padding:11px;margin:10px 0;font-size:13px;overflow-wrap:anywhere}
+.notice{background:#fff7e8;border-right:4px solid #d69b32}
+.result{display:none;background:#f1f8f6;border:1px solid #c9e2dc;border-radius:12px;padding:14px;margin-top:14px}
+.item{background:#fff;border:1px solid #dce9e5;border-radius:9px;padding:11px;margin:9px 0}
+.question{border-bottom:1px solid #e8efed;padding:10px 0}.qtitle{font-weight:bold}.options{display:flex;gap:22px;flex-wrap:wrap}.options label{display:flex;align-items:center;gap:6px}
+input[type=radio]{accent-color:#176b62}.en{direction:ltr;text-align:left;font-weight:bold;color:#176b62}.ar{font-weight:bold}.muted,.small{font-size:13px;color:#668079}.footer{text-align:center;color:#6d8580;font-size:12px;padding:15px}
 </style>
 </head>
-
 <body>
 <div class="container">
+<header><h1>Sarah Lab AI</h1><div>المساعد الذكي للتقييم المخبري الأولي</div><div>للرجال والنساء</div></header>
 
-<header>
-<h1>Sarah Lab AI</h1>
-<p>المساعد الذكي للتقييم المخبري الأولي</p>
-<p>تحليل الأعراض وعوامل الخطورة والفحوصات المختبرية</p>
-</header>
-
-<!-- قواعد البيانات -->
-
-<div class="card">
-
+<section class="card">
 <h2>اتصال قواعد البيانات</h2>
+<div id="dbStatus" class="status">جاري الاتصال...</div>
+<div id="dbDetails"></div>
+<button type="button" onclick="loadDatabases()">تحديث قواعد البيانات</button>
+</section>
 
-<div id="dbStatus" class="status">
-جاري الاتصال بقواعد البيانات...
-</div>
-
-<div id="dbInfo"></div>
-
-<button type="button" onclick="loadDatabases()">
-تحديث قواعد البيانات
-</button>
-
-</div>
-
-<!-- كتابة الأعراض -->
-
-<div class="card">
-
-<h2>القسم الأول: كتابة الأعراض</h2>
-
-<p>اكتبي الأعراض التي تعانين منها بالتفصيل:</p>
-
-<textarea id="symptoms"
-placeholder="مثال: تعب مستمر، دوخة، صداع، شحوب، تساقط الشعر، خفقان..."></textarea>
-
-<button type="button" onclick="evaluateSymptoms()">
-تحليل الأعراض
-</button>
-
+<section class="card">
+<h2>كتابة الأعراض</h2>
+<p>اكتب الأعراض التي تشعر بها:</p>
+<textarea id="symptoms" placeholder="مثال: تعب مستمر، دوخة، صداع، شحوب، تساقط الشعر..."></textarea>
+<button type="button" onclick="evaluateSymptoms()">تحليل الأعراض</button>
 <div id="symptomResult" class="result"></div>
+</section>
 
-</div>
-
-<!-- التقييم بالاختيارات -->
-
-<div class="card">
-
-<h2>القسم الثاني: التقييم بالاختيارات</h2>
-
-<p class="section-note">
-أجيبي عن الأسئلة التالية وفق حالتك الصحية.
-</p>
-
-<label for="age">العمر:</label>
-
-<input id="age" type="number"
-min="1" max="120" placeholder="أدخلي العمر">
-
-<label for="gender">الجنس:</label>
-
-<select id="gender">
-<option value="">اختاري الجنس</option>
-<option value="female">أنثى</option>
-<option value="male">ذكر</option>
-</select>
-
-<div id="questions">
-
-<div class="question">
-<div class="question-title">
-1. هل تعانين من التعب والإرهاق المتكرر؟
-</div>
-<div class="options">
-<label><input type="radio" name="q1" value="1"> نعم</label>
-<label><input type="radio" name="q1" value="0"> لا</label>
-</div>
-</div>
-
-<div class="question">
-<div class="question-title">
-2. هل تعانين من الدوخة أو الصداع المتكرر؟
-</div>
-<div class="options">
-<label><input type="radio" name="q2" value="1"> نعم</label>
-<label><input type="radio" name="q2" value="0"> لا</label>
-</div>
-</div>
-
-<div class="question">
-<div class="question-title">
-3. هل تعانين من تساقط الشعر؟
-</div>
-<div class="options">
-<label><input type="radio" name="q3" value="1"> نعم</label>
-<label><input type="radio" name="q3" value="0"> لا</label>
-</div>
-</div>
-
-<div class="question">
-<div class="question-title">
-4. هل تلاحظين شحوب البشرة؟
-</div>
-<div class="options">
-<label><input type="radio" name="q4" value="1"> نعم</label>
-<label><input type="radio" name="q4" value="0"> لا</label>
-</div>
-</div>
-
-<div class="question">
-<div class="question-title">
-5. هل تعانين من ضيق التنفس عند بذل الجهد؟
-</div>
-<div class="options">
-<label><input type="radio" name="q5" value="1"> نعم</label>
-<label><input type="radio" name="q5" value="0"> لا</label>
-</div>
-</div>
-
-<div class="question">
-<div class="question-title">
-6. هل تعانين من خفقان القلب؟
-</div>
-<div class="options">
-<label><input type="radio" name="q6" value="1"> نعم</label>
-<label><input type="radio" name="q6" value="0"> لا</label>
-</div>
-</div>
-
-<div class="question">
-<div class="question-title">
-7. هل تعانين من ضعف أو تكسر الأظافر؟
-</div>
-<div class="options">
-<label><input type="radio" name="q7" value="1"> نعم</label>
-<label><input type="radio" name="q7" value="0"> لا</label>
-</div>
-</div>
-
-<div class="question">
-<div class="question-title">
-8. هل تتناولين كميات قليلة من الأغذية الغنية بالحديد؟
-</div>
-<div class="options">
-<label><input type="radio" name="q8" value="1"> نعم</label>
-<label><input type="radio" name="q8" value="0"> لا</label>
-</div>
-</div>
-
-<div class="question">
-<div class="question-title">
-9. هل تتبعين نظاماً غذائياً نباتياً بالكامل؟
-</div>
-<div class="options">
-<label><input type="radio" name="q9" value="1"> نعم</label>
-<label><input type="radio" name="q9" value="0"> لا</label>
-</div>
-</div>
-
-</div>
-
-<button type="button" onclick="evaluateOptions()">
-عرض نتيجة التقييم
-</button>
-
+<section class="card">
+<h2>التقييم بالاختيارات</h2>
+<p class="muted">تتغير الأسئلة حسب الجنس والعمر. استخدم الإجابات التي تنطبق على الحالة فقط.</p>
+<label for="age">العمر</label><input id="age" type="number" min="1" max="120" placeholder="أدخل العمر">
+<label for="gender">الجنس</label>
+<select id="gender"><option value="">اختر الجنس</option><option value="female">أنثى / Female</option><option value="male">ذكر / Male</option></select>
+<div id="questions"><p class="small">أدخل العمر واختر الجنس لعرض الأسئلة.</p></div>
+<div id="qCount" class="small"></div>
+<button type="button" onclick="evaluateOptions()">عرض نتيجة التقييم</button>
 <div id="optionResult" class="result"></div>
+</section>
 
-</div>
+<section class="card">
+<h2>الفحوصات المختبرية والقيم المرجعية</h2>
+<p class="muted">اسم الفحص بالعربية والإنكليزية، مع الوحدة والمدى المرجعي عند توفرهما في الورقة.</p>
+<div id="referenceTests">جاري تحميل القيم المرجعية...</div>
+</section>
 
-<!-- الفحوصات المختبرية -->
-
-<div class="card">
-
-<h2>القسم الثالث: الفحوصات المختبرية المرجعية</h2>
-
-<p class="section-note">
-الفحوصات المسترجعة من قواعد بيانات الحديد والأنيميا.
-</p>
-
-<div id="tests">
-<p>جاري تحميل الفحوصات...</p>
-</div>
-
-</div>
-
-<!-- التنبيه الطبي -->
-
-<div class="warning">
-
-<strong>تنبيه طبي مهم:</strong>
-
-هذا البرنامج أداة مساعدة للتوعية والتقييم الأولي وليس وسيلة لتشخيص الأمراض.
-
-لا يمكن تأكيد نقص الحديد أو فقر الدم اعتماداً على الأعراض وحدها.
-
-فقر الدم له أسباب وأنواع متعددة، وقد تتشابه أعراضه مع حالات صحية أخرى.
-
-يجب إجراء الفحوصات المختبرية وتفسيرها من قبل مختص صحي.
-
-لا يُنصح باستخدام مكملات الحديد أو غيرها اعتماداً على الأعراض فقط.
-
-</div>
-
-<div class="footer">
-Sarah Lab AI © 2026
-</div>
-
+<div class="notice"><b>تنبيه طبي:</b> هذا البرنامج أداة مساعدة للتوعية والتقييم الأولي وليس وسيلة لتشخيص الأمراض. لا يمكن تأكيد نقص الحديد أو فقر الدم من الأعراض وحدها. تختلف المديات المرجعية حسب المختبر والعمر والجنس والحمل والحالة الصحية. يجب مراجعة مختص لتفسير النتائج، ولا تبدأ مكملات الحديد دون تقييم مناسب.</div>
+<div class="footer">Sarah Lab AI © 2026</div>
 </div>
 
 <script>
+const DATABASES = [
+ {name:"IRON – الحديد",url:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSLrjvpRJiDnW7LX-jmINNBfQhr9DOyVXNQL5pqILl6M2kPXDQTDpxb9Rwdl2790cPIvD2BFqBtQyh9/pub?gid=0&single=true&output=csv"},
+ {name:"Anemia – فقر الدم",url:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSLrjvpRJiDnW7LX-jmINNBfQhr9DOyVXNQL5pqILl6M2kPXDQTDpxb9Rwdl2790cPIvD2BFqBtQyh9/pub?gid=2085769362&single=true&output=csv"},
+ {name:"Lab_Reference – القيم المرجعية",url:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSLrjvpRJiDnW7LX-jmINNBfQhr9DOyVXNQL5pqILl6M2kPXDQTDpxb9Rwdl2790cPIvD2BFqBtQyh9/pub?gid=662877916&single=true&output=csv"}
+];
+let dbRows=[[],[],[]],dbState=[false,false,false],questionsNow=[];
 
-// ==================================
-// 1. روابط قواعد البيانات
-// ==================================
-
-const IRON_URL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vSLrjvpRJiDnW7LX-jmINNBfQhr9DOyVXNQL5pqILl6M2kPXDQTDpxb9Rwdl2790cPIvD2BFqBtQyh9/pub?gid=0&single=true&output=csv";
-
-const ANEMIA_URL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vSLrjvpRJiDnW7LX-jmINNBfQhr9DOyVXNQL5pqILl6M2kPXDQTDpxb9Rwdl2790cPIvD2BFqBtQyh9/pub?gid=2085769362&single=true&output=csv";
-
-let ironData=[];
-let anemiaData=[];
-
-let ironConnected=false;
-let anemiaConnected=false;
-
-let loading=false;
-
-// ==================================
-// 2. حماية النصوص
-// ==================================
-
-function escapeHTML(value){
-
- return String(value??"").replace(/[&<>"']/g,c=>({
-  "&":"&amp;",
-  "<":"&lt;",
-  ">":"&gt;",
-  '"':"&quot;",
-  "'":"&#39;"
- })[c]);
-
-}
-
-// ==================================
-// 3. قراءة ملفات CSV
-// ==================================
-
-function parseCSV(text){
-
- const rows=[];
- let row=[];
- let field="";
- let quoted=false;
-
- for(let i=0;i<text.length;i++){
-
-  const c=text[i];
-  const next=text[i+1];
-
-  if(c==='"' && quoted && next==='"'){
-
-   field+='"';
-   i++;
-
-  }else if(c==='"'){
-
-   quoted=!quoted;
-
-  }else if(c==="," && !quoted){
-
-   row.push(field);
-   field="";
-
-  }else if((c==="\n"||c==="\r")&&!quoted){
-
-   if(c==="\r"&&next==="\n")i++;
-
-   row.push(field);
-
-   if(row.some(v=>v.trim()!=="")){
-    rows.push(row);
-   }
-
-   row=[];
-   field="";
-
-  }else{
-
-   field+=c;
-
-  }
-
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function parseCSV(s){
+ const rows=[];let row=[],v="",q=false;
+ for(let i=0;i<s.length;i++){let c=s[i],n=s[i+1];
+  if(c=='"'&&q&&n=='"'){v+='"';i++;}
+  else if(c=='"')q=!q;
+  else if(c==","&&!q){row.push(v);v="";}
+  else if((c=="\n"||c=="\r")&&!q){if(c=="\r"&&n=="\n")i++;row.push(v);if(row.some(x=>x.trim()))rows.push(row);row=[];v="";}
+  else v+=c;
  }
-
- row.push(field);
-
- if(row.some(v=>v.trim()!=="")){
-  rows.push(row);
- }
-
- return rows;
-
+ row.push(v);if(row.some(x=>x.trim()))rows.push(row);return rows;
 }
-
-// ==================================
-// 4. تحويل الصفوف إلى سجلات
-// ==================================
-
-function convertRows(rows){
-
- return rows.slice(1).map(r=>({
-
-  factor:r[0]||"",
-  factorAr:r[1]||"",
-
-  code:r[2]||"",
-
-  symptom:r[3]||"",
-  symptomAr:r[4]||"",
-
-  risk:r[5]||"",
-  riskAr:r[6]||"",
-
-  test:r[7]||"",
-  testAr:r[8]||"",
-
-  note:r[9]||"",
-  noteAr:r[10]||"",
-
-  source:r[11]||""
-
- }));
-
+function norm(s){return String(s??"").toLowerCase().replace(/^\uFEFF/,"").replace(/[ًٌٍَُِّْـ]/g,"").replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي").trim();}
+function headerKey(s){return norm(s).replace(/[\s_\-()/]+/g,"");}
+function findCol(headers,aliases){
+ const h=headers.map(headerKey);
+ for(const a of aliases){const i=h.indexOf(headerKey(a));if(i>=0)return i;}
+ return -1;
 }
-
-// ==================================
-// 5. تحميل قاعدة بيانات مستقلة
-// ==================================
-
-async function fetchDatabase(url){
-
- const response=await fetch(url,{
-  cache:"no-store"
+function objectsFromCSV(csv){
+ const rows=parseCSV(csv.replace(/^\uFEFF/,""));if(rows.length<2)return [];
+ const headers=rows[0];
+ return rows.slice(1).filter(r=>r.some(x=>x.trim())).map(r=>{
+  const get=aliases=>{const i=findCol(headers,aliases);return i<0?"":(r[i]??"").trim();};
+  return {
+   raw:r.join(" "),
+   factor:get(["factor","العامل","عامل","الحالة","condition"]),
+   symptom:get(["symptom","الأعراض","العرض","symptoms"]),
+   risk:get(["risk","عامل الخطورة","عوامل الخطورة","risk factor"]),
+   testEn:get(["test","test name","اسم الفحص بالانكليزي","الفحص بالانكليزي","english name","الفحص"]),
+   testAr:get(["test ar","test arabic","اسم الفحص بالعربي","الفحص بالعربي","الاسم العربي"]),
+   unit:get(["unit","الوحدة","units"]),
+   range:get(["reference range","range","المدى المرجعي","القيم المرجعية","reference"]),
+   maleRange:get(["male range","مدى الذكور","الذكور"]),
+   femaleRange:get(["female range","مدى الاناث","الإناث","النساء"]),
+   note:get(["note","ملاحظة","الملاحظات","interpretation"])
+  };
  });
-
- if(!response.ok){
-  throw new Error("HTTP "+response.status);
- }
-
- const csv=await response.text();
-
- const rows=parseCSV(csv.replace(/^\uFEFF/,""));
-
- if(rows.length<2){
-  throw new Error("قاعدة البيانات فارغة");
- }
-
- return convertRows(rows);
-
 }
-
-// ==================================
-// 6. الاتصال بقاعدتي البيانات
-// ==================================
-
 async function loadDatabases(){
-
- if(loading)return;
-
- loading=true;
-
  const status=document.getElementById("dbStatus");
- const info=document.getElementById("dbInfo");
-
- status.textContent="جاري الاتصال بقواعد البيانات...";
-
- try{
-
-  const results=await Promise.allSettled([
-
-   fetchDatabase(IRON_URL),
-
-   fetchDatabase(ANEMIA_URL)
-
-  ]);
-
-  ironConnected=results[0].status==="fulfilled";
-  anemiaConnected=results[1].status==="fulfilled";
-
-  ironData=ironConnected?results[0].value:[];
-  anemiaData=anemiaConnected?results[1].value:[];
-
-  status.textContent=
-   (ironConnected?"تم اتصال الحديد":"تعذر اتصال الحديد")
-   +" | "+
-   (anemiaConnected?"تم اتصال الأنيميا":"تعذر اتصال الأنيميا");
-
-  info.innerHTML=`
-
-   <div class="data-item">
-   <b>قاعدة بيانات الحديد:</b>
-   ${ironData.length} سجلات
-   <br>
-   الحالة: ${ironConnected?"متصلة":"غير متصلة"}
-   </div>
-
-   <div class="data-item">
-   <b>قاعدة بيانات الأنيميا:</b>
-   ${anemiaData.length} سجلات
-   <br>
-   الحالة: ${anemiaConnected?"متصلة":"غير متصلة"}
-   </div>
-
-   <p><b>إجمالي السجلات:</b>
-   ${ironData.length+anemiaData.length}</p>
-
-  `;
-
-  updateTests();
-
- }catch(error){
-
-  status.textContent="حدث خطأ أثناء تحميل قواعد البيانات.";
-
-  console.error(error);
-
- }finally{
-
-  loading=false;
-
- }
-
+ status.textContent="جاري تحميل قواعد البيانات الثلاث...";
+ const results=await Promise.allSettled(DATABASES.map(async d=>{
+  const res=await fetch(d.url,{cache:"no-store"});if(!res.ok)throw Error("HTTP "+res.status);
+  return objectsFromCSV(await res.text());
+ }));
+ results.forEach((r,i)=>{dbState[i]=r.status==="fulfilled";dbRows[i]=dbState[i]?r.value:[];});
+ status.textContent=DATABASES.map((d,i)=>d.name+": "+(dbState[i]?"متصلة":"تعذر الاتصال")).join(" | ");
+ document.getElementById("dbDetails").innerHTML=DATABASES.map((d,i)=>`<div class="item"><b>${esc(d.name)}</b><br>عدد السجلات: ${dbRows[i].length} — ${dbState[i]?"تم الاتصال":"غير متصلة"}</div>`).join("");
+ renderReferenceTests();
 }
-
-// ==================================
-// 7. توحيد الكلمات
-// ==================================
-
-function normalizeText(value){
-
- return String(value||"")
-  .toLowerCase()
-  .replace(/[ًٌٍَُِّْـ]/g,"")
-  .replace(/[أإآ]/g,"ا")
-  .replace(/ة/g,"ه")
-  .replace(/ى/g,"ي")
-  .trim();
-
+function allRows(){return dbRows.flat();}
+function getMatches(terms){
+ const t=terms.map(norm).filter(x=>x.length>2);
+ return allRows().filter(row=>{const s=norm(row.raw);return t.some(x=>s.includes(x));}).slice(0,12);
 }
-
-// ==================================
-// 8. البحث في قاعدة الحديد والأنيميا
-// ==================================
-
-function searchDatabase(terms){
-
- const normalized=terms
-  .map(normalizeText)
-  .filter(Boolean);
-
- const allData=[
-
-  ...ironData.map(item=>({
-   ...item,
-   database:"نقص الحديد"
-  })),
-
-  ...anemiaData.map(item=>({
-   ...item,
-   database:"الأنيميا"
-  }))
-
- ];
-
- return allData.filter(item=>{
-
-  const content=normalizeText(
-
-   item.factorAr+" "+
-   item.factor+" "+
-   item.symptomAr+" "+
-   item.symptom+" "+
-   item.riskAr+" "+
-   item.risk+" "+
-   item.noteAr+" "+
-   item.note
-
-  );
-
-  return normalized.some(term=>
-   term.length>2&&content.includes(term)
-  );
-
- });
-
+function matchesHTML(rows){
+ if(!rows.length)return "<p>لا توجد سجلات مطابقة مباشرة في قواعد البيانات المتصلة.</p>";
+ return rows.map(r=>`<div class="item"><b>العامل:</b> ${esc(r.factor)}<br><b>العرض:</b> ${esc(r.symptom)}<br><b>عامل الخطورة:</b> ${esc(r.risk)}<br><b>الفحص / Test:</b><div class="en">${esc(r.testEn)}</div><div class="ar">${esc(r.testAr)}</div><b>ملاحظة:</b> ${esc(r.note)}</div>`).join("");
 }
-
-// ==================================
-// 9. عرض السجلات المسترجعة
-// ==================================
-
-function showDatabaseMatches(matches){
-
- if(!matches.length){
-
-  return `
-   <p>
-   لم يتم العثور على سجل مطابق مباشرة في قواعد البيانات المتصلة.
-   </p>
-  `;
-
- }
-
- let html="<h3>المعلومات المسترجعة</h3>";
-
- matches.forEach(item=>{
-
-  html+=`
-
-   <div class="data-item">
-
-    <div class="database-title">
-    قاعدة البيانات: ${escapeHTML(item.database)}
-    </div>
-
-    <b>العامل:</b>
-    ${escapeHTML(item.factorAr||item.factor)}
-    <br>
-
-    <b>العرض:</b>
-    ${escapeHTML(item.symptomAr||item.symptom)}
-    <br>
-
-    <b>عامل الخطورة:</b>
-    ${escapeHTML(item.riskAr||item.risk)}
-    <br>
-
-    <b>الفحص:</b>
-    ${escapeHTML(item.testAr||item.test)}
-    <br>
-
-    <b>الملاحظة:</b>
-    ${escapeHTML(item.noteAr||item.note)}
-    <br>
-
-    <b>المصدر:</b>
-    ${escapeHTML(item.source)}
-
-   </div>
-
-  `;
-
- });
-
- return html;
-
+function renderReferenceTests(){
+ const rows=dbRows[2];
+ const box=document.getElementById("referenceTests");
+ if(!dbState[2]){box.innerHTML="<p>تعذر تحميل ورقة القيم المرجعية. تحقق من نشر الورقة بصيغة CSV.</p>";return;}
+ if(!rows.length){box.innerHTML="<p>اتصلت الورقة لكن لم تُقرأ سجلات. تأكد من وجود صف عناوين في أول صف.</p>";return;}
+ box.innerHTML=rows.map(r=>`<div class="item">
+  <div class="en">${esc(r.testEn||"English test name not supplied")}</div>
+  <div class="ar">${esc(r.testAr||"اسم الفحص العربي غير متوفر")}</div>
+  ${r.unit?`<div><b>الوحدة / Unit:</b> ${esc(r.unit)}</div>`:""}
+  ${r.range?`<div><b>المدى المرجعي / Reference range:</b> ${esc(r.range)}</div>`:""}
+  ${r.maleRange?`<div><b>الذكور / Male:</b> ${esc(r.maleRange)}</div>`:""}
+  ${r.femaleRange?`<div><b>الإناث / Female:</b> ${esc(r.femaleRange)}</div>`:""}
+  ${r.note?`<div><b>ملاحظة:</b> ${esc(r.note)}</div>`:""}
+ </div>`).join("");
 }
-
-// ==================================
-// 10. استخراج الفحوصات
-// ==================================
-
-function getTestsHTML(){
-
- const allData=[
-  ...ironData,
-  ...anemiaData
- ];
-
- const tests=[...new Set(
-
-  allData
-   .map(item=>item.testAr||item.test)
-   .filter(Boolean)
-
- )];
-
- if(!tests.length){
-
-  return `
-
-   <div class="data-item">
-   CBC - صورة الدم الكاملة
-   </div>
-
-   <div class="data-item">
-   Serum Ferritin - مخزون الحديد
-   </div>
-
-   <div class="data-item">
-   Serum Iron - الحديد في مصل الدم
-   </div>
-
-   <div class="data-item">
-   TIBC - السعة الكلية لارتباط الحديد
-   </div>
-
-   <div class="data-item">
-   Transferrin Saturation - نسبة تشبع الترانسفيرين
-   </div>
-
-  `;
-
- }
-
- return tests.map(test=>
-  '<div class="data-item">'+escapeHTML(test)+'</div>'
- ).join("");
-
-}
-
-function updateTests(){
-
- document.getElementById("tests").innerHTML=
- getTestsHTML();
-
-}
-
-// ==================================
-// 11. استخراج الأعراض المكتوبة
-// ==================================
-
 function evaluateSymptoms(){
-
- const input=document
-  .getElementById("symptoms")
-  .value.trim();
-
- const result=document.getElementById("symptomResult");
-
- if(!input){
-
-  alert("يرجى كتابة الأعراض أولاً");
-
-  return;
-
- }
-
- const text=normalizeText(input);
-
- const symptomGroups=[
-
-  ["تعب","ارهاق","خمول","اجهاد"],
-
-  ["دوخه","دوار"],
-
-  ["صداع"],
-
-  ["تساقط الشعر","تساقط"],
-
-  ["شحوب"],
-
-  ["ضيق التنفس","صعوبه التنفس"],
-
-  ["خفقان"],
-
-  ["اظافر","تكسر الاظافر","ضعف الاظافر"]
-
- ];
-
- const found=symptomGroups.filter(group=>
-
-  group.some(word=>
-   text.includes(normalizeText(word))
-  )
-
- );
-
- const terms=found.flat();
-
- const matches=searchDatabase(terms);
-
- result.style.display="block";
-
- let html="<h3>نتيجة التقييم الأولي</h3>";
-
- html+=`
-
-  <p>
-  عدد مجموعات الأعراض التي تم التعرف عليها:
-  ${found.length}
-  </p>
-
- `;
-
- if(found.length){
-
-  html+=`
-
-   <p><b>الأعراض المكتشفة:</b>
-   ${terms.map(escapeHTML).join("، ")}
-   </p>
-
-   <p>
-   قد تتوافق بعض الأعراض مع نقص الحديد أو فقر الدم،
-   لكنها ليست خاصة بهذه الحالات.
-   </p>
-
-  `;
-
- }else{
-
-  html+=`
-
-   <p>
-   لم يتم التعرف على أعراض من القائمة الأولية.
-   هذا لا ينفي وجود مشكلة صحية.
-   </p>
-
-  `;
-
- }
-
- html+=showDatabaseMatches(matches);
-
- html+="<h3>الفحوصات المرجعية</h3>";
-
- html+=getTestsHTML();
-
- html+=`
-
-  <p>
-  يجب تفسير الفحوصات من قبل مختص صحي.
-  </p>
-
- `;
-
- result.innerHTML=html;
-
- result.scrollIntoView({
-  behavior:"smooth",
-  block:"center"
- });
-
+ const s=document.getElementById("symptoms").value.trim(),box=document.getElementById("symptomResult");
+ if(!s){alert("اكتب الأعراض أولاً.");return;}
+ const keywords=["تعب","ارهاق","دوخه","دوار","صداع","تساقط الشعر","شحوب","ضيق التنفس","خفقان","تكسر الاظافر","ضعف الاظافر"];
+ const found=keywords.filter(k=>norm(s).includes(norm(k)));
+ const rows=getMatches(found.length?found:s.split(/[،, ]+/));
+ box.style.display="block";
+ box.innerHTML=`<h3>نتيجة التقييم الأولي</h3><p>الأعراض التي تعرّف عليها البرنامج: ${found.length?found.map(esc).join("، "):"لم يتم التعرف على كلمات من القائمة الأولية."}</p><p>قد تتشابه هذه الأعراض مع نقص الحديد أو فقر الدم وأسباب أخرى، ولا تكفي للتشخيص.</p>${matchesHTML(rows)}`;
 }
-
-// ==================================
-// 12. التقييم بالاختيارات
-// ==================================
-
+const common=[
+ {id:"fatigue",q:"هل تشعر بالتعب أو الإرهاق المتكرر؟",kind:"symptom",terms:["تعب","ارهاق"]},
+ {id:"dizzy",q:"هل تعاني من الدوخة أو الصداع المتكرر؟",kind:"symptom",terms:["دوخه","صداع"]},
+ {id:"hair",q:"هل تلاحظ تساقط الشعر؟",kind:"symptom",terms:["تساقط الشعر"]},
+ {id:"pale",q:"هل تلاحظ شحوب البشرة؟",kind:"symptom",terms:["شحوب"]},
+ {id:"breath",q:"هل تشعر بضيق التنفس عند بذل الجهد؟",kind:"symptom",terms:["ضيق التنفس"]},
+ {id:"heart",q:"هل تشعر بخفقان القلب؟",kind:"symptom",terms:["خفقان"]},
+ {id:"nails",q:"هل تعاني من ضعف أو تكسر الأظافر؟",kind:"symptom",terms:["تكسر الاظافر"]},
+ {id:"diet",q:"هل تتناول كميات قليلة من الأغذية الغنية بالحديد؟",kind:"risk",terms:["قلة تناول الحديد"]},
+ {id:"plant",q:"هل تتبع نظاماً غذائياً نباتياً بالكامل؟",kind:"risk",terms:["نظام غذائي نباتي"]}
+];
+const femaleOnly=[
+ {id:"period",q:"هل تكون الدورة الشهرية غزيرة أو تستمر مدة أطول من المعتاد؟",kind:"risk",terms:["غزارة الدورة الشهرية"]},
+ {id:"pregnancy",q:"هل يوجد حمل حالياً أو ولادة خلال الأشهر الستة الماضية؟",kind:"risk",terms:["الحمل أو ما بعد الولادة"]}
+];
+const maleOnly=[
+ {id:"gi",q:"هل سبق تشخيص نزف بالجهاز الهضمي أو ملاحظة دم في البراز؟",kind:"risk",terms:["نزف الجهاز الهضمي"]}
+];
+function renderQuestions(){
+ const gender=document.getElementById("gender").value,age=Number(document.getElementById("age").value);
+ const box=document.getElementById("questions"),count=document.getElementById("qCount");
+ document.getElementById("optionResult").style.display="none";
+ if(!gender||!age||age<1||age>120){box.innerHTML='<p class="small">أدخل العمر واختر الجنس لعرض الأسئلة المناسبة.</p>';count.textContent="";questionsNow=[];return;}
+ questionsNow=[...common,...(gender==="female"?femaleOnly:maleOnly)];
+ if(age<18)questionsNow=questionsNow.filter(q=>q.id!=="period"&&q.id!=="pregnancy");
+ box.innerHTML=questionsNow.map((q,i)=>`<div class="question"><div class="qtitle">${i+1}. ${q.q}</div><div class="options"><label><input type="radio" name="${q.id}" value="1"> نعم</label><label><input type="radio" name="${q.id}" value="0"> لا</label></div></div>`).join("");
+ count.textContent="عدد الأسئلة الظاهرة: "+questionsNow.length;
+}
+document.getElementById("gender").addEventListener("change",renderQuestions);
+document.getElementById("age").addEventListener("input",renderQuestions);
 function evaluateOptions(){
-
- const result=document.getElementById("optionResult");
-
- const age=document.getElementById("age").value;
-
- const gender=document.getElementById("gender").value;
-
- if(!age||age<1||age>120||!gender){
-
-  alert("يرجى إدخال العمر والجنس بشكل صحيح");
-
-  return;
-
- }
-
- let symptomScore=0;
- let riskScore=0;
-
- let terms=[];
-
- const questionTerms={
-
-  1:["تعب","ارهاق"],
-
-  2:["دوخه","صداع"],
-
-  3:["تساقط الشعر"],
-
-  4:["شحوب"],
-
-  5:["ضيق التنفس"],
-
-  6:["خفقان"],
-
-  7:["تكسر الاظافر"],
-
-  8:["قلة تناول الحديد"],
-
-  9:["نظام غذائي نباتي"]
-
- };
-
- for(let i=1;i<=9;i++){
-
-  const answer=document.querySelector(
-   'input[name="q'+i+'"]:checked'
-  );
-
-  if(!answer){
-
-   alert("يرجى الإجابة عن جميع الأسئلة");
-
-   return;
-
-  }
-
-  if(answer.value==="1"){
-
-   if(i<=7){
-
-    symptomScore++;
-
-   }else{
-
-    riskScore++;
-
-   }
-
-   terms.push(...questionTerms[i]);
-
-  }
-
- }
-
- const matches=searchDatabase(terms);
-
- let assessment="";
-
- if(symptomScore===0&&riskScore===0){
-
-  assessment="لم تظهر مؤشرات إيجابية ضمن الإجابات.";
-
- }else if(symptomScore>0&&riskScore===0){
-
-  assessment="توجد أعراض تستحق التحقق من أسبابها.";
-
- }else if(symptomScore===0&&riskScore>0){
-
-  assessment="توجد عوامل خطورة غذائية محتملة.";
-
- }else{
-
-  assessment="توجد أعراض وعوامل خطورة تستحق التقييم.";
-
- }
-
- result.style.display="block";
-
- let html=`
-
-  <h3>نتيجة التقييم الأولي</h3>
-
-  <p><b>العمر:</b>
-  ${escapeHTML(age)}
-  </p>
-
-  <p><b>الجنس:</b>
-  ${gender==="female"?"أنثى":"ذكر"}
-  </p>
-
-  <p><b>عدد الأعراض:</b>
-  ${symptomScore} من 7
-  </p>
-
-  <p><b>عوامل الخطورة الغذائية:</b>
-  ${riskScore} من 2
-  </p>
-
-  <p><b>التقييم:</b>
-  ${assessment}
-  </p>
-
- `;
-
- html+=showDatabaseMatches(matches);
-
- html+="<h3>الفحوصات المرجعية</h3>";
-
- html+=getTestsHTML();
-
- html+=`
-
-  <div class="warning">
-  هذه النتيجة وصف للإجابات وليست تشخيصاً
-  أو نسبة احتمال للإصابة بفقر الدم أو نقص الحديد.
-  </div>
-
- `;
-
- result.innerHTML=html;
-
- result.scrollIntoView({
-  behavior:"smooth",
-  block:"center"
- });
-
+ const age=Number(document.getElementById("age").value),gender=document.getElementById("gender").value,box=document.getElementById("optionResult");
+ if(!age||age<1||age>120||!gender){alert("أدخل العمر واختر الجنس.");return;}
+ if(!questionsNow.length)renderQuestions();
+ let symptom=0,risk=0,terms=[];
+ for(const q of questionsNow){const a=document.querySelector(`input[name="${q.id}"]:checked`);if(!a){alert("يرجى الإجابة عن جميع الأسئلة الظاهرة.");return;}if(a.value==="1"){if(q.kind==="symptom")symptom++;else risk++;terms.push(...q.terms);}}
+ let assessment="لم تظهر مؤشرات إيجابية ضمن الإجابات.";
+ if(symptom&&risk)assessment="توجد أعراض وعوامل خطورة تستحق التقييم.";
+ else if(symptom)assessment="توجد أعراض تستحق التحقق من أسبابها.";
+ else if(risk)assessment="توجد عوامل خطورة محتملة تستحق التقييم.";
+ box.style.display="block";
+ box.innerHTML=`<h3>نتيجة التقييم الأولي</h3><p><b>العمر:</b> ${age}</p><p><b>الجنس:</b> ${gender==="female"?"أنثى / Female":"ذكر / Male"}</p><p><b>عدد الأعراض بنعم:</b> ${symptom}</p><p><b>عوامل الخطورة بنعم:</b> ${risk}</p><p><b>التقييم:</b> ${assessment}</p>${matchesHTML(getMatches(terms))}<div class="notice">هذه النتيجة تلخص الإجابات ولا تمثل تشخيصاً أو نسبة احتمال للإصابة.</div>`;
+ box.scrollIntoView({behavior:"smooth",block:"center"});
 }
-
-// ==================================
-// 13. تشغيل البرنامج
-// ==================================
-
 loadDatabases();
-
 </script>
-
 </body>
-</html>
+</html> 
