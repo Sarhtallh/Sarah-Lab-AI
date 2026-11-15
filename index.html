@@ -2,202 +2,977 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#176b62">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#123d38">
 <title>Sarah Lab AI</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;padding:15px;background:#f1f6f5;font-family:Tahoma,Arial,sans-serif;color:#203b38;line-height:1.8}
-.container{max-width:900px;margin:auto}header{background:linear-gradient(135deg,#176b62,#27988a);color:#fff;padding:24px 16px;border-radius:17px;text-align:center;margin-bottom:17px}
-header h1{margin:0;font-size:27px}.card{background:#fff;border-radius:15px;padding:18px;margin:15px 0;box-shadow:0 3px 12px #0000000c}
-h2,h3{color:#176b62;margin-top:0}h2{font-size:19px}label{display:block;margin:8px 0}
-input[type=text],input[type=number],select,textarea{width:100%;padding:12px;border:1px solid #ccdcd8;border-radius:9px;font:inherit;margin:5px 0 12px;background:#fff}
-textarea{min-height:105px}button{width:100%;background:#176b62;color:#fff;border:0;border-radius:10px;padding:13px;font: bold 16px Tahoma;cursor:pointer;margin-top:8px}
-.status,.notice{background:#edf6f4;border-radius:9px;padding:11px;margin:10px 0;font-size:13px;overflow-wrap:anywhere}
-.notice{background:#fff7e8;border-right:4px solid #d69b32}
-.result{display:none;background:#f1f8f6;border:1px solid #c9e2dc;border-radius:12px;padding:14px;margin-top:14px}
-.item{background:#fff;border:1px solid #dce9e5;border-radius:9px;padding:11px;margin:9px 0}
-.question{border-bottom:1px solid #e8efed;padding:10px 0}.qtitle{font-weight:bold}.options{display:flex;gap:22px;flex-wrap:wrap}.options label{display:flex;align-items:center;gap:6px}
-input[type=radio]{accent-color:#176b62}.en{direction:ltr;text-align:left;font-weight:bold;color:#176b62}.ar{font-weight:bold}.muted,.small{font-size:13px;color:#668079}.footer{text-align:center;color:#6d8580;font-size:12px;padding:15px}
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ padding:14px;
+ background:#edf2f0;
+ color:#203b36;
+ font-family:Tahoma,Arial,sans-serif;
+ line-height:1.8;
+}
+
+.container{max-width:720px;margin:auto}
+
+header{
+ background:linear-gradient(140deg,#102f2c,#185b50);
+ color:white;
+ padding:27px 20px;
+ border-radius:20px;
+ margin-bottom:17px;
+ box-shadow:0 8px 25px #102f2c20;
+}
+
+header h1{margin:0;font-size:27px}
+header p{margin:4px 0 0;color:#d1e5df;font-size:13px}
+
+.card{
+ background:#fff;
+ border:1px solid #e0e9e5;
+ border-radius:17px;
+ padding:19px;
+ margin-bottom:16px;
+ box-shadow:0 4px 15px #102f2c08;
+}
+
+h2{font-size:18px;color:#174c42;margin:0 0 13px}
+h3{font-size:16px;color:#174c42}
+
+label{
+ display:block;
+ font-size:14px;
+ font-weight:bold;
+ margin:8px 0;
+}
+
+input,select,textarea{
+ width:100%;
+ padding:13px;
+ border:1px solid #d5e2dd;
+ border-radius:11px;
+ background:#fbfdfc;
+ font:inherit;
+ color:#203b36;
+ margin:5px 0 12px;
+}
+
+textarea{min-height:105px;resize:vertical}
+
+button{
+ width:100%;
+ padding:13px;
+ border:0;
+ border-radius:11px;
+ background:#174c42;
+ color:white;
+ font:bold 15px Tahoma;
+ cursor:pointer;
+ margin-top:8px;
+}
+
+button:disabled{opacity:.5;cursor:not-allowed}
+
+.secondary{
+ background:#e8f1ed;
+ color:#174c42;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
+}
+
+.choice{
+ border:1px solid #dce8e2;
+ border-radius:15px;
+ padding:17px;
+ background:white;
+ cursor:pointer;
+ transition:.2s;
+}
+
+.choice:active{background:#edf5f1}
+
+.symbol{font-size:27px;color:#267866}
+.choice h3{margin:5px 0;color:#174c42;font-size:16px}
+.choice p{margin:0;font-size:12px;color:#70857e}
+
+.hidden{display:none!important}
+
+.chat{
+ background:#f4f8f6;
+ border-radius:13px;
+ padding:13px;
+ max-height:350px;
+ overflow-y:auto;
+ margin:12px 0;
+}
+
+.message{
+ padding:10px 12px;
+ border-radius:12px;
+ margin:8px 0;
+ font-size:14px;
+ max-width:92%;
+}
+
+.bot{
+ background:white;
+ border:1px solid #e0e9e5;
+ margin-left:auto;
+}
+
+.user{
+ background:#dcece5;
+ margin-right:auto;
+}
+
+.answer-buttons{
+ display:flex;
+ gap:10px;
+}
+
+.answer-buttons button{flex:1}
+
+.result{
+ background:#edf5f1;
+ border:1px solid #d1e4da;
+ border-radius:13px;
+ padding:16px;
+ margin-top:15px;
+}
+
+.result-title{
+ font-weight:bold;
+ color:#174c42;
+ margin-bottom:8px;
+}
+
+.test{
+ background:white;
+ border:1px solid #dce8e2;
+ padding:13px;
+ border-radius:11px;
+ margin:10px 0;
+}
+
+.test .en{
+ direction:ltr;
+ text-align:left;
+ color:#174c42;
+ font-weight:bold;
+}
+
+.test .ar{font-weight:bold}
+
+.small{font-size:12px;color:#71857e}
+
+.notice{
+ background:#fff7e9;
+ border-right:4px solid #d5a044;
+ padding:11px;
+ border-radius:9px;
+ font-size:12px;
+ margin-top:15px;
+}
+
+.footer{
+ text-align:center;
+ color:#82938d;
+ font-size:11px;
+ padding:15px;
+}
+
+@media(max-width:420px){
+ body{padding:10px}
+ .grid{gap:8px}
+ .card{padding:15px}
+}
 </style>
 </head>
+
 <body>
 <div class="container">
-<header><h1>Sarah Lab AI</h1><div>المساعد الذكي للتقييم المخبري الأولي</div><div>للرجال والنساء</div></header>
+
+<header>
+ <h1>Sarah Lab AI</h1>
+ <p>المساعد الذكي للتقييم المخبري الأولي</p>
+ <p>Medical Laboratory AI Assistant</p>
+</header>
+
+<!-- بيانات المريض -->
 
 <section class="card">
-<h2>اتصال قواعد البيانات</h2>
-<div id="dbStatus" class="status">جاري الاتصال...</div>
-<div id="dbDetails"></div>
-<button type="button" onclick="loadDatabases()">تحديث قواعد البيانات</button>
+ <h2>بيانات المريض</h2>
+
+ <div class="grid">
+  <div>
+   <label for="age">العمر</label>
+   <input id="age" type="number"
+   min="1" max="120" placeholder="أدخل العمر">
+  </div>
+
+  <div>
+   <label for="gender">الجنس</label>
+   <select id="gender">
+    <option value="">اختر الجنس</option>
+    <option value="male">ذكر / Male</option>
+    <option value="female">أنثى / Female</option>
+   </select>
+  </div>
+ </div>
 </section>
+
+<!-- طريقة التقييم -->
 
 <section class="card">
-<h2>كتابة الأعراض</h2>
-<p>اكتب الأعراض التي تشعر بها:</p>
-<textarea id="symptoms" placeholder="مثال: تعب مستمر، دوخة، صداع، شحوب، تساقط الشعر..."></textarea>
-<button type="button" onclick="evaluateSymptoms()">تحليل الأعراض</button>
-<div id="symptomResult" class="result"></div>
+ <h2>اختر طريقة التقييم</h2>
+
+ <div class="grid">
+
+  <div class="choice" onclick="openMode('chat')">
+   <div class="symbol">✎</div>
+   <h3>كتابة الأعراض</h3>
+   <p>اكتب أعراضك وابدأ الحوار مع المساعد.</p>
+  </div>
+
+  <div class="choice" onclick="openMode('options')">
+   <div class="symbol">☷</div>
+   <h3>الاختيارات</h3>
+   <p>حدد العامل والعرض وعامل الخطورة.</p>
+  </div>
+
+ </div>
 </section>
 
-<section class="card">
-<h2>التقييم بالاختيارات</h2>
-<p class="muted">تتغير الأسئلة حسب الجنس والعمر. استخدم الإجابات التي تنطبق على الحالة فقط.</p>
-<label for="age">العمر</label><input id="age" type="number" min="1" max="120" placeholder="أدخل العمر">
-<label for="gender">الجنس</label>
-<select id="gender"><option value="">اختر الجنس</option><option value="female">أنثى / Female</option><option value="male">ذكر / Male</option></select>
-<div id="questions"><p class="small">أدخل العمر واختر الجنس لعرض الأسئلة.</p></div>
-<div id="qCount" class="small"></div>
-<button type="button" onclick="evaluateOptions()">عرض نتيجة التقييم</button>
-<div id="optionResult" class="result"></div>
+<!-- الحوار -->
+
+<section id="chatSection" class="card hidden">
+ <h2>الحوار الطبي الأولي</h2>
+
+ <div id="chatBox" class="chat">
+  <div class="message bot">
+   مرحباً بك في Sarah Lab AI.
+   اكتب الأعراض التي تشعر بها حتى نبدأ التقييم.
+  </div>
+ </div>
+
+ <div id="chatEntry">
+  <textarea id="chatInput"
+  placeholder="اكتب الأعراض بالتفصيل..."></textarea>
+  <button onclick="startChat()">إرسال الأعراض</button>
+ </div>
+
+ <div id="chatAnswersArea" class="hidden">
+  <div class="answer-buttons">
+   <button onclick="answerChat('نعم')">نعم</button>
+   <button class="secondary" onclick="answerChat('لا')">لا</button>
+  </div>
+ </div>
+
+ <div id="chatResult" class="result hidden"></div>
 </section>
 
-<section class="card">
-<h2>الفحوصات المختبرية والقيم المرجعية</h2>
-<p class="muted">اسم الفحص بالعربية والإنكليزية، مع الوحدة والمدى المرجعي عند توفرهما في الورقة.</p>
-<div id="referenceTests">جاري تحميل القيم المرجعية...</div>
+<!-- الاختيارات -->
+
+<section id="optionsSection" class="card hidden">
+ <h2>التقييم بالاختيارات</h2>
+
+ <label for="factor">العامل</label>
+ <select id="factor">
+  <option value="">اختر العامل</option>
+ </select>
+
+ <label for="symptom">العرض</label>
+ <select id="symptom" disabled>
+  <option value="">اختر العرض</option>
+ </select>
+
+ <label for="risk">عامل الخطورة</label>
+ <select id="risk" disabled>
+  <option value="">اختر عامل الخطورة</option>
+ </select>
+
+ <button onclick="evaluateOptions()">
+  عرض نتيجة التقييم
+ </button>
+
+ <div id="optionResult" class="result hidden"></div>
 </section>
 
-<div class="notice"><b>تنبيه طبي:</b> هذا البرنامج أداة مساعدة للتوعية والتقييم الأولي وليس وسيلة لتشخيص الأمراض. لا يمكن تأكيد نقص الحديد أو فقر الدم من الأعراض وحدها. تختلف المديات المرجعية حسب المختبر والعمر والجنس والحمل والحالة الصحية. يجب مراجعة مختص لتفسير النتائج، ولا تبدأ مكملات الحديد دون تقييم مناسب.</div>
-<div class="footer">Sarah Lab AI © 2026</div>
+<div class="notice">
+ <b>تنبيه طبي:</b>
+ هذا البرنامج أداة مساعدة للتوعية والتقييم الأولي وليس وسيلة لتشخيص الأمراض.
+ الأعراض وحدها لا تؤكد وجود نقص غذائي أو مرض.
+ يجب مراجعة المختص عند الحاجة.
+</div>
+
+<div class="footer">
+ Sarah Lab AI © 2026
+</div>
+
 </div>
 
 <script>
-const DATABASES = [
- {name:"IRON – الحديد",url:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSLrjvpRJiDnW7LX-jmINNBfQhr9DOyVXNQL5pqILl6M2kPXDQTDpxb9Rwdl2790cPIvD2BFqBtQyh9/pub?gid=0&single=true&output=csv"},
- {name:"Anemia – فقر الدم",url:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSLrjvpRJiDnW7LX-jmINNBfQhr9DOyVXNQL5pqILl6M2kPXDQTDpxb9Rwdl2790cPIvD2BFqBtQyh9/pub?gid=2085769362&single=true&output=csv"},
- {name:"Lab_Reference – القيم المرجعية",url:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSLrjvpRJiDnW7LX-jmINNBfQhr9DOyVXNQL5pqILl6M2kPXDQTDpxb9Rwdl2790cPIvD2BFqBtQyh9/pub?gid=662877916&single=true&output=csv"}
-];
-let dbRows=[[],[],[]],dbState=[false,false,false],questionsNow=[];
 
-function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+/* ==========================
+   1. قواعد البيانات الأصلية
+========================== */
+
+const DATABASES=[
+{
+ name:"IRON",
+ url:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSLrjvpRJiDnW7LX-jmINNBfQhr9DOyVXNQL5pqILl6M2kPXDQTDpxb9Rwdl2790cPIvD2BFqBtQyh9/pub?gid=0&single=true&output=csv"
+},
+{
+ name:"Anemia",
+ url:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSLrjvpRJiDnW7LX-jmINNBfQhr9DOyVXNQL5pqILl6M2kPXDQTDpxb9Rwdl2790cPIvD2BFqBtQyh9/pub?gid=2085769362&single=true&output=csv"
+},
+{
+ name:"Lab Reference",
+ url:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSLrjvpRJiDnW7LX-jmINNBfQhr9DOyVXNQL5pqILl6M2kPXDQTDpxb9Rwdl2790cPIvD2BFqBtQyh9/pub?gid=662877916&single=true&output=csv"
+}
+];
+
+let dbRows=[[],[],[]];
+let dbState=[false,false,false];
+
+function esc(v){
+ return String(v??"").replace(/[&<>"']/g,c=>({
+ "&":"&amp;",
+ "<":"&lt;",
+ ">":"&gt;",
+ '"':"&quot;",
+ "'":"&#39;"
+ }[c]));
+}
+
+function norm(s){
+ return String(s??"")
+ .toLowerCase()
+ .replace(/^\uFEFF/,"")
+ .replace(/[ًٌٍَُِّْـ]/g,"")
+ .replace(/[أإآ]/g,"ا")
+ .replace(/ة/g,"ه")
+ .replace(/ى/g,"ي")
+ .trim();
+}
+
+function headerKey(s){
+ return norm(s).replace(/[\s_\-()/]+/g,"");
+}
+
 function parseCSV(s){
- const rows=[];let row=[],v="",q=false;
- for(let i=0;i<s.length;i++){let c=s[i],n=s[i+1];
-  if(c=='"'&&q&&n=='"'){v+='"';i++;}
-  else if(c=='"')q=!q;
-  else if(c==","&&!q){row.push(v);v="";}
-  else if((c=="\n"||c=="\r")&&!q){if(c=="\r"&&n=="\n")i++;row.push(v);if(row.some(x=>x.trim()))rows.push(row);row=[];v="";}
-  else v+=c;
+ const rows=[];
+ let row=[],v="",q=false;
+
+ for(let i=0;i<s.length;i++){
+  let c=s[i],n=s[i+1];
+
+  if(c=='"'&&q&&n=='"'){
+   v+='"';i++;
+  }
+  else if(c=='"'){
+   q=!q;
+  }
+  else if(c==","&&!q){
+   row.push(v);v="";
+  }
+  else if((c=="\n"||c=="\r")&&!q){
+   if(c=="\r"&&n=="\n")i++;
+   row.push(v);
+   if(row.some(x=>x.trim()))rows.push(row);
+   row=[];v="";
+  }
+  else{
+   v+=c;
+  }
  }
- row.push(v);if(row.some(x=>x.trim()))rows.push(row);return rows;
+
+ row.push(v);
+ if(row.some(x=>x.trim()))rows.push(row);
+
+ return rows;
 }
-function norm(s){return String(s??"").toLowerCase().replace(/^\uFEFF/,"").replace(/[ًٌٍَُِّْـ]/g,"").replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي").trim();}
-function headerKey(s){return norm(s).replace(/[\s_\-()/]+/g,"");}
-function findCol(headers,aliases){
- const h=headers.map(headerKey);
- for(const a of aliases){const i=h.indexOf(headerKey(a));if(i>=0)return i;}
- return -1;
-}
+
 function objectsFromCSV(csv){
- const rows=parseCSV(csv.replace(/^\uFEFF/,""));if(rows.length<2)return [];
+
+ const rows=parseCSV(csv.replace(/^\uFEFF/,""));
+
+ if(rows.length<2)return [];
+
  const headers=rows[0];
- return rows.slice(1).filter(r=>r.some(x=>x.trim())).map(r=>{
-  const get=aliases=>{const i=findCol(headers,aliases);return i<0?"":(r[i]??"").trim();};
-  return {
-   raw:r.join(" "),
-   factor:get(["factor","العامل","عامل","الحالة","condition"]),
-   symptom:get(["symptom","الأعراض","العرض","symptoms"]),
-   risk:get(["risk","عامل الخطورة","عوامل الخطورة","risk factor"]),
-   testEn:get(["test","test name","اسم الفحص بالانكليزي","الفحص بالانكليزي","english name","الفحص"]),
-   testAr:get(["test ar","test arabic","اسم الفحص بالعربي","الفحص بالعربي","الاسم العربي"]),
-   unit:get(["unit","الوحدة","units"]),
-   range:get(["reference range","range","المدى المرجعي","القيم المرجعية","reference"]),
-   maleRange:get(["male range","مدى الذكور","الذكور"]),
-   femaleRange:get(["female range","مدى الاناث","الإناث","النساء"]),
-   note:get(["note","ملاحظة","الملاحظات","interpretation"])
-  };
+
+ function col(aliases){
+  for(const a of aliases){
+   const i=headers.findIndex(
+    h=>headerKey(h)===headerKey(a)
+   );
+   if(i>=0)return i;
+  }
+  return -1;
+ }
+
+ function get(r,aliases){
+  const i=col(aliases);
+  return i<0?"":String(r[i]??"").trim();
+ }
+
+ return rows.slice(1)
+ .filter(r=>r.some(x=>x.trim()))
+ .map(r=>({
+
+  factor:get(r,[
+   "factor","العامل","عامل","الحالة","condition"
+  ]),
+
+  symptom:get(r,[
+   "symptom","الأعراض","العرض","symptoms"
+  ]),
+
+  risk:get(r,[
+   "risk","عامل الخطورة","عوامل الخطورة","risk factor"
+  ]),
+
+  testEn:get(r,[
+   "test","test name","اسم الفحص بالانكليزي",
+   "الفحص بالانكليزي","english name","الفحص"
+  ]),
+
+  testAr:get(r,[
+   "test ar","test arabic","اسم الفحص بالعربي",
+   "الفحص بالعربي","الاسم العربي"
+  ]),
+
+  unit:get(r,["unit","الوحدة","units"]),
+
+  range:get(r,[
+   "reference range","range","المدى المرجعي",
+   "القيم المرجعية","reference"
+  ]),
+
+  note:get(r,["note","ملاحظة","الملاحظات","interpretation"]),
+
+  raw:r.join(" ")
+
+ }));
+}
+
+async function loadDatabases(){
+
+ const results=await Promise.allSettled(
+  DATABASES.map(async d=>{
+   const res=await fetch(d.url,{cache:"no-store"});
+   if(!res.ok)throw Error("HTTP "+res.status);
+   return objectsFromCSV(await res.text());
+  })
+ );
+
+ results.forEach((r,i)=>{
+  dbState[i]=r.status==="fulfilled";
+  dbRows[i]=dbState[i]?r.value:[];
+ });
+
+ populateFactors();
+
+ console.log("Sarah Lab AI database status:",
+ dbState.map((x,i)=>({
+  name:DATABASES[i].name,
+  connected:x,
+  records:dbRows[i].length
+ })));
+
+}
+
+function allRows(){
+ return [...dbRows[0],...dbRows[1]];
+}
+
+/* ==========================
+   2. قوائم الاختيارات
+========================== */
+
+function unique(values){
+ const seen=new Set();
+
+ return values.filter(v=>{
+  const k=norm(v);
+  if(!k||seen.has(k))return false;
+  seen.add(k);
+  return true;
  });
 }
-async function loadDatabases(){
- const status=document.getElementById("dbStatus");
- status.textContent="جاري تحميل قواعد البيانات الثلاث...";
- const results=await Promise.allSettled(DATABASES.map(async d=>{
-  const res=await fetch(d.url,{cache:"no-store"});if(!res.ok)throw Error("HTTP "+res.status);
-  return objectsFromCSV(await res.text());
- }));
- results.forEach((r,i)=>{dbState[i]=r.status==="fulfilled";dbRows[i]=dbState[i]?r.value:[];});
- status.textContent=DATABASES.map((d,i)=>d.name+": "+(dbState[i]?"متصلة":"تعذر الاتصال")).join(" | ");
- document.getElementById("dbDetails").innerHTML=DATABASES.map((d,i)=>`<div class="item"><b>${esc(d.name)}</b><br>عدد السجلات: ${dbRows[i].length} — ${dbState[i]?"تم الاتصال":"غير متصلة"}</div>`).join("");
- renderReferenceTests();
+
+function fillSelect(id,values,placeholder){
+ const el=document.getElementById(id);
+
+ el.innerHTML=
+ '<option value="">'+esc(placeholder)+'</option>'+
+ unique(values).map(v=>
+  '<option value="'+esc(v)+'">'+esc(v)+'</option>'
+ ).join("");
 }
-function allRows(){return dbRows.flat();}
-function getMatches(terms){
- const t=terms.map(norm).filter(x=>x.length>2);
- return allRows().filter(row=>{const s=norm(row.raw);return t.some(x=>s.includes(x));}).slice(0,12);
+
+function populateFactors(){
+
+ fillSelect(
+  "factor",
+  allRows().map(r=>r.factor),
+  "اختر العامل"
+ );
+
 }
-function matchesHTML(rows){
- if(!rows.length)return "<p>لا توجد سجلات مطابقة مباشرة في قواعد البيانات المتصلة.</p>";
- return rows.map(r=>`<div class="item"><b>العامل:</b> ${esc(r.factor)}<br><b>العرض:</b> ${esc(r.symptom)}<br><b>عامل الخطورة:</b> ${esc(r.risk)}<br><b>الفحص / Test:</b><div class="en">${esc(r.testEn)}</div><div class="ar">${esc(r.testAr)}</div><b>ملاحظة:</b> ${esc(r.note)}</div>`).join("");
+
+document.getElementById("factor")
+.addEventListener("change",()=>{
+
+ const f=document.getElementById("factor").value;
+
+ const rows=allRows().filter(r=>
+  norm(r.factor)===norm(f)
+ );
+
+ fillSelect(
+  "symptom",
+  rows.map(r=>r.symptom),
+  "اختر العرض"
+ );
+
+ fillSelect(
+  "risk",
+  [],
+  "اختر عامل الخطورة"
+ );
+
+ document.getElementById("symptom").disabled=!f;
+ document.getElementById("risk").disabled=true;
+
+});
+
+document.getElementById("symptom")
+.addEventListener("change",()=>{
+
+ const f=document.getElementById("factor").value;
+ const s=document.getElementById("symptom").value;
+
+ const rows=allRows().filter(r=>
+  norm(r.factor)===norm(f)&&
+  norm(r.symptom)===norm(s)
+ );
+
+ fillSelect(
+  "risk",
+  ["لا يوجد / غير منطبق",...rows.map(r=>r.risk)],
+  "اختر عامل الخطورة"
+ );
+
+ document.getElementById("risk").disabled=!s;
+
+});
+
+/* ==========================
+   3. عرض المسارين
+========================== */
+
+function patientReady(){
+
+ const age=Number(document.getElementById("age").value);
+ const gender=document.getElementById("gender").value;
+
+ if(!age||age<1||age>120||!gender){
+  alert("يرجى إدخال العمر واختيار الجنس أولاً.");
+  return false;
+ }
+
+ return true;
 }
-function renderReferenceTests(){
- const rows=dbRows[2];
- const box=document.getElementById("referenceTests");
- if(!dbState[2]){box.innerHTML="<p>تعذر تحميل ورقة القيم المرجعية. تحقق من نشر الورقة بصيغة CSV.</p>";return;}
- if(!rows.length){box.innerHTML="<p>اتصلت الورقة لكن لم تُقرأ سجلات. تأكد من وجود صف عناوين في أول صف.</p>";return;}
- box.innerHTML=rows.map(r=>`<div class="item">
-  <div class="en">${esc(r.testEn||"English test name not supplied")}</div>
-  <div class="ar">${esc(r.testAr||"اسم الفحص العربي غير متوفر")}</div>
-  ${r.unit?`<div><b>الوحدة / Unit:</b> ${esc(r.unit)}</div>`:""}
-  ${r.range?`<div><b>المدى المرجعي / Reference range:</b> ${esc(r.range)}</div>`:""}
-  ${r.maleRange?`<div><b>الذكور / Male:</b> ${esc(r.maleRange)}</div>`:""}
-  ${r.femaleRange?`<div><b>الإناث / Female:</b> ${esc(r.femaleRange)}</div>`:""}
-  ${r.note?`<div><b>ملاحظة:</b> ${esc(r.note)}</div>`:""}
- </div>`).join("");
+
+function openMode(mode){
+
+ if(!patientReady())return;
+
+ document.getElementById("chatSection")
+ .classList.add("hidden");
+
+ document.getElementById("optionsSection")
+ .classList.add("hidden");
+
+ if(mode==="chat"){
+  document.getElementById("chatSection")
+  .classList.remove("hidden");
+  resetChat();
+ }
+
+ if(mode==="options"){
+  document.getElementById("optionsSection")
+  .classList.remove("hidden");
+  document.getElementById("optionResult")
+  .classList.add("hidden");
+ }
+
 }
-function evaluateSymptoms(){
- const s=document.getElementById("symptoms").value.trim(),box=document.getElementById("symptomResult");
- if(!s){alert("اكتب الأعراض أولاً.");return;}
- const keywords=["تعب","ارهاق","دوخه","دوار","صداع","تساقط الشعر","شحوب","ضيق التنفس","خفقان","تكسر الاظافر","ضعف الاظافر"];
- const found=keywords.filter(k=>norm(s).includes(norm(k)));
- const rows=getMatches(found.length?found:s.split(/[،, ]+/));
- box.style.display="block";
- box.innerHTML=`<h3>نتيجة التقييم الأولي</h3><p>الأعراض التي تعرّف عليها البرنامج: ${found.length?found.map(esc).join("، "):"لم يتم التعرف على كلمات من القائمة الأولية."}</p><p>قد تتشابه هذه الأعراض مع نقص الحديد أو فقر الدم وأسباب أخرى، ولا تكفي للتشخيص.</p>${matchesHTML(rows)}`;
+
+/* ==========================
+   4. محرك الحوار
+========================== */
+
+let chatSymptoms="";
+let chatQuestions=[];
+let chatStep=0;
+let chatAnswers=[];
+
+function addMessage(text,type){
+
+ const box=document.getElementById("chatBox");
+
+ const div=document.createElement("div");
+ div.className="message "+type;
+ div.textContent=text;
+
+ box.appendChild(div);
+ box.scrollTop=box.scrollHeight;
+
 }
-const common=[
- {id:"fatigue",q:"هل تشعر بالتعب أو الإرهاق المتكرر؟",kind:"symptom",terms:["تعب","ارهاق"]},
- {id:"dizzy",q:"هل تعاني من الدوخة أو الصداع المتكرر؟",kind:"symptom",terms:["دوخه","صداع"]},
- {id:"hair",q:"هل تلاحظ تساقط الشعر؟",kind:"symptom",terms:["تساقط الشعر"]},
- {id:"pale",q:"هل تلاحظ شحوب البشرة؟",kind:"symptom",terms:["شحوب"]},
- {id:"breath",q:"هل تشعر بضيق التنفس عند بذل الجهد؟",kind:"symptom",terms:["ضيق التنفس"]},
- {id:"heart",q:"هل تشعر بخفقان القلب؟",kind:"symptom",terms:["خفقان"]},
- {id:"nails",q:"هل تعاني من ضعف أو تكسر الأظافر؟",kind:"symptom",terms:["تكسر الاظافر"]},
- {id:"diet",q:"هل تتناول كميات قليلة من الأغذية الغنية بالحديد؟",kind:"risk",terms:["قلة تناول الحديد"]},
- {id:"plant",q:"هل تتبع نظاماً غذائياً نباتياً بالكامل؟",kind:"risk",terms:["نظام غذائي نباتي"]}
-];
-const femaleOnly=[
- {id:"period",q:"هل تكون الدورة الشهرية غزيرة أو تستمر مدة أطول من المعتاد؟",kind:"risk",terms:["غزارة الدورة الشهرية"]},
- {id:"pregnancy",q:"هل يوجد حمل حالياً أو ولادة خلال الأشهر الستة الماضية؟",kind:"risk",terms:["الحمل أو ما بعد الولادة"]}
-];
-const maleOnly=[
- {id:"gi",q:"هل سبق تشخيص نزف بالجهاز الهضمي أو ملاحظة دم في البراز؟",kind:"risk",terms:["نزف الجهاز الهضمي"]}
-];
-function renderQuestions(){
- const gender=document.getElementById("gender").value,age=Number(document.getElementById("age").value);
- const box=document.getElementById("questions"),count=document.getElementById("qCount");
- document.getElementById("optionResult").style.display="none";
- if(!gender||!age||age<1||age>120){box.innerHTML='<p class="small">أدخل العمر واختر الجنس لعرض الأسئلة المناسبة.</p>';count.textContent="";questionsNow=[];return;}
- questionsNow=[...common,...(gender==="female"?femaleOnly:maleOnly)];
- if(age<18)questionsNow=questionsNow.filter(q=>q.id!=="period"&&q.id!=="pregnancy");
- box.innerHTML=questionsNow.map((q,i)=>`<div class="question"><div class="qtitle">${i+1}. ${q.q}</div><div class="options"><label><input type="radio" name="${q.id}" value="1"> نعم</label><label><input type="radio" name="${q.id}" value="0"> لا</label></div></div>`).join("");
- count.textContent="عدد الأسئلة الظاهرة: "+questionsNow.length;
+
+function resetChat(){
+
+ chatSymptoms="";
+ chatQuestions=[];
+ chatStep=0;
+ chatAnswers=[];
+
+ document.getElementById("chatBox").innerHTML=
+ '<div class="message bot">مرحباً بك في Sarah Lab AI. اكتب الأعراض التي تشعر بها حتى نبدأ التقييم.</div>';
+
+ document.getElementById("chatInput").value="";
+
+ document.getElementById("chatEntry")
+ .classList.remove("hidden");
+
+ document.getElementById("chatAnswersArea")
+ .classList.add("hidden");
+
+ document.getElementById("chatResult")
+ .classList.add("hidden");
+
 }
-document.getElementById("gender").addEventListener("change",renderQuestions);
-document.getElementById("age").addEventListener("input",renderQuestions);
+
+function buildChatQuestions(){
+
+ const age=Number(document.getElementById("age").value);
+ const gender=document.getElementById("gender").value;
+
+ let q=[
+  {
+   text:"منذ متى بدأت الأعراض؟",
+   type:"duration"
+  },
+  {
+   text:"هل الأعراض مستمرة أم تظهر وتختفي؟",
+   type:"general"
+  },
+  {
+   text:"هل تؤثر الأعراض على نشاطك اليومي؟",
+   type:"general"
+  },
+  {
+   text:"هل تتناول غذاءً متنوعاً يحتوي على مصادر الفيتامينات والمعادن؟",
+   type:"diet"
+  }
+ ];
+
+ if(age<18){
+  q.push({
+   text:"هل حدث تغير في الشهية أو النمو خلال الفترة الأخيرة؟",
+   type:"age"
+  });
+ }
+
+ if(age>=18&&age<51&&gender==="female"){
+  q.push({
+   text:"هل تعانين من غزارة الدورة الشهرية أو استمرارها أكثر من المعتاد؟",
+   type:"female_period"
+  });
+
+  q.push({
+   text:"هل يوجد حمل حالياً أو رضاعة؟",
+   type:"female_pregnancy"
+  });
+ }
+
+ if(age>=51&&gender==="female"){
+  q.push({
+   text:"هل حدث تغير واضح في الحالة الصحية أو التغذية مؤخراً؟",
+   type:"female_age"
+  });
+ }
+
+ if(gender==="male"){
+  q.push({
+   text:"هل تتبع نظاماً غذائياً مقيداً أو تمارس تمارين رياضية مكثفة مع قلة تناول الطعام؟",
+   type:"male"
+  });
+ }
+
+ return q;
+}
+
+function startChat(){
+
+ if(!patientReady())return;
+
+ const text=document.getElementById("chatInput").value.trim();
+
+ if(text.length<3){
+  alert("يرجى كتابة الأعراض بصورة أوضح.");
+  return;
+ }
+
+ chatSymptoms=text;
+
+ addMessage(text,"user");
+
+ document.getElementById("chatInput").value="";
+ document.getElementById("chatEntry").classList.add("hidden");
+
+ chatQuestions=buildChatQuestions();
+ chatStep=0;
+ chatAnswers=[];
+
+ nextChatQuestion();
+
+}
+
+function nextChatQuestion(){
+
+ if(chatStep>=chatQuestions.length){
+  finishChat();
+  return;
+ }
+
+ const q=chatQuestions[chatStep];
+
+ addMessage(q.text,"bot");
+
+ document.getElementById("chatAnswersArea")
+ .classList.remove("hidden");
+
+}
+
+function answerChat(answer){
+
+ addMessage(answer,"user");
+
+ chatAnswers.push({
+  question:chatQuestions[chatStep].text,
+  answer:answer,
+  type:chatQuestions[chatStep].type
+ });
+
+ chatStep++;
+
+ nextChatQuestion();
+
+}
+
+/* ==========================
+   5. مطابقة قاعدة البيانات
+========================== */
+
+function findChatRows(text){
+
+ const words=norm(text)
+ .split(/[\s،,.;:!?]+/)
+ .filter(w=>w.length>=3);
+
+ const rows=allRows();
+
+ const scored=rows.map(r=>{
+
+  const fields=[
+   r.factor,
+   r.symptom,
+   r.risk,
+   r.raw
+  ].map(norm);
+
+  let score=0;
+
+  words.forEach(w=>{
+   if(fields[1].includes(w))score+=3;
+   else if(fields.some(f=>f.includes(w)))score+=1;
+  });
+
+  return {row:r,score:score};
+
+ }).filter(x=>x.score>0);
+
+ scored.sort((a,b)=>b.score-a.score);
+
+ return scored.slice(0,15).map(x=>x.row);
+
+}
+
+function findOptionRows(){
+
+ const f=document.getElementById("factor").value;
+ const s=document.getElementById("symptom").value;
+ const risk=document.getElementById("risk").value;
+
+ return allRows().filter(r=>{
+
+  const factorMatch=norm(r.factor)===norm(f);
+  const symptomMatch=norm(r.symptom)===norm(s);
+
+  if(!factorMatch||!symptomMatch)return false;
+
+  if(risk==="لا يوجد / غير منطبق")return true;
+
+  return !risk||norm(r.risk)===norm(risk);
+
+ });
+
+}
+
+/* ==========================
+   6. بناء النتيجة
+========================== */
+
+function showResult(rows,box){
+
+ box.classList.remove("hidden");
+
+ const factors=unique(rows.map(r=>r.factor).filter(Boolean));
+
+ const tests=[];
+ const seen=new Set();
+
+ rows.forEach(r=>{
+
+  if(!r.testEn&&!r.testAr)return;
+
+  const key=norm(r.testEn)+"|"+norm(r.testAr);
+
+  if(seen.has(key))return;
+
+  seen.add(key);
+  tests.push(r);
+
+ });
+
+ const selected=tests.slice(0,2);
+
+ let html=
+ '<div class="result-title">نقص الفيتامينات والمعادن المحتمل</div>';
+
+ if(factors.length){
+
+  html+=factors.map(f=>
+   '<div class="test">'+esc(f)+'</div>'
+  ).join("");
+
+ }else{
+
+  html+='<p>لم تظهر احتمالات مطابقة كافية في قاعدة البيانات.</p>';
+
+ }
+
+ html+='<div class="result-title" style="margin-top:17px">الفحوصات المختبرية المقترحة</div>';
+
+ if(selected.length){
+
+  selected.forEach(r=>{
+
+   html+=`
+   <div class="test">
+    <div class="ar">${esc(r.testAr||"اسم الفحص العربي غير متوفر")}</div>
+    <div class="en">${esc(r.testEn||"Test name not available")}</div>
+   </div>
+   `;
+
+  });
+
+ }else{
+
+  html+='<p>لا توجد فحوصات محددة مطابقة في قاعدة البيانات الحالية. يلزم مراجعة البيانات قبل اقتراح فحص.</p>';
+
+ }
+
+ html+=`
+ <div class="small">
+ الاقتراحات أولية وتعتمد على السجلات المطابقة، ولا تمثل تشخيصاً مؤكداً.
+ </div>
+ `;
+
+ box.innerHTML=html;
+
+ box.scrollIntoView({
+  behavior:"smooth",
+  block:"center"
+ });
+
+}
+
+function finishChat(){
+
+ document.getElementById("chatAnswersArea")
+ .classList.add("hidden");
+
+ const extra=chatAnswers.map(x=>
+  x.question+" "+x.answer
+ ).join(" ");
+
+ const allText=chatSymptoms+" "+extra;
+
+ const rows=findChatRows(allText);
+
+ showResult(
+  rows,
+  document.getElementById("chatResult")
+ );
+
+}
+
+/* ==========================
+   7. تقييم الاختيارات
+========================== */
+
 function evaluateOptions(){
- const age=Number(document.getElementById("age").value),gender=document.getElementById("gender").value,box=document.getElementById("optionResult");
- if(!age||age<1||age>120||!gender){alert("أدخل العمر واختر الجنس.");return;}
- if(!questionsNow.length)renderQuestions();
- let symptom=0,risk=0,terms=[];
- for(const q of questionsNow){const a=document.querySelector(`input[name="${q.id}"]:checked`);if(!a){alert("يرجى الإجابة عن جميع الأسئلة الظاهرة.");return;}if(a.value==="1"){if(q.kind==="symptom")symptom++;else risk++;terms.push(...q.terms);}}
- let assessment="لم تظهر مؤشرات إيجابية ضمن الإجابات.";
- if(symptom&&risk)assessment="توجد أعراض وعوامل خطورة تستحق التقييم.";
- else if(symptom)assessment="توجد أعراض تستحق التحقق من أسبابها.";
- else if(risk)assessment="توجد عوامل خطورة محتملة تستحق التقييم.";
- box.style.display="block";
- box.innerHTML=`<h3>نتيجة التقييم الأولي</h3><p><b>العمر:</b> ${age}</p><p><b>الجنس:</b> ${gender==="female"?"أنثى / Female":"ذكر / Male"}</p><p><b>عدد الأعراض بنعم:</b> ${symptom}</p><p><b>عوامل الخطورة بنعم:</b> ${risk}</p><p><b>التقييم:</b> ${assessment}</p>${matchesHTML(getMatches(terms))}<div class="notice">هذه النتيجة تلخص الإجابات ولا تمثل تشخيصاً أو نسبة احتمال للإصابة.</div>`;
- box.scrollIntoView({behavior:"smooth",block:"center"});
+
+ if(!patientReady())return;
+
+ const f=document.getElementById("factor").value;
+ const s=document.getElementById("symptom").value;
+ const risk=document.getElementById("risk").value;
+
+ if(!f||!s||!risk){
+  alert("يرجى اختيار العامل والعرض وعامل الخطورة.");
+  return;
+ }
+
+ const rows=findOptionRows();
+
+ showResult(
+  rows,
+  document.getElementById("optionResult")
+ );
+
 }
+
+/* ==========================
+   8. بدء الاتصال
+========================== */
+
 loadDatabases();
+
 </script>
 </body>
-</html> 
+</html>
+ 
