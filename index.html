@@ -2,47 +2,297 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sarah Lab AI</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f1f7f7;
-      text-align: center;
-      padding: 30px 15px;
-      color: #214b50;
-    }
-    .container {
-      background: white;
-      padding: 25px;
-      border-radius: 18px;
-      max-width: 450px;
-      margin: auto;
-      box-shadow: 0 4px 15px #0001;
-    }
-    h1 { color: #168b83; }
-    p { line-height: 1.8; }
-    button {
-      background: #168b83;
-      color: white;
-      border: none;
-      padding: 14px 25px;
-      border-radius: 10px;
-      font-size: 17px;
-      margin-top: 15px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#176b62">
+<title>Sarah Lab AI</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Tahoma,Arial,sans-serif;
+ background:#f1f7f5;
+ color:#203b38;
+ line-height:1.8
+}
+header{
+ background:linear-gradient(135deg,#145d55,#269889);
+ color:white;
+ text-align:center;
+ padding:32px 15px;
+ border-radius:0 0 28px 28px
+}
+header h1{margin:0;font-size:29px}
+header p{margin:5px 0}
+.container{
+ max-width:650px;
+ margin:25px auto;
+ padding:15px
+}
+.card{
+ background:white;
+ padding:22px;
+ border-radius:18px;
+ box-shadow:0 4px 18px #0000000c;
+ margin-bottom:18px
+}
+h2{color:#176b62}
+button{
+ background:#19796e;
+ color:white;
+ border:0;
+ border-radius:12px;
+ padding:13px 20px;
+ font-size:16px;
+ cursor:pointer;
+ width:100%;
+ margin-top:12px
+}
+button.secondary{background:#718580}
+button:disabled{opacity:.5}
+.question{
+ border-bottom:1px solid #e6eeeb;
+ padding:15px 0
+}
+.question p{font-weight:bold;margin:0 0 10px}
+label{
+ display:block;
+ padding:7px;
+ cursor:pointer
+}
+input{accent-color:#19796e;margin-left:8px}
+.note{
+ background:#e9f4f1;
+ padding:13px;
+ border-radius:12px;
+ font-size:14px
+}
+.result{
+ background:#edf7f3;
+ border-right:4px solid #19796e;
+ padding:15px;
+ margin:12px 0;
+ border-radius:10px
+}
+.hidden{display:none}
+footer{text-align:center;color:#667873;font-size:13px;padding:20px}
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Sarah Lab AI</h1>
-    <p>مساعدك الذكي لفهم المؤشرات الصحية ونقص الفيتامينات والمعادن.</p>
-    <p>ابدئي رحلتك لفهم صحتك بطريقة علمية.</p>
-    <button onclick="alert('مرحباً بكِ في Sarah Lab AI')">
-      ابدئي الآن
-    </button>
-    <p>معلومات تثقيفية لا تغني عن التشخيص الطبي.</p>
-  </div>
+
+<header>
+<h1>Sarah Lab AI</h1>
+<p>مساعدك الذكي لفهم المؤشرات الصحية</p>
+<p>نحو فهم أفضل لصحتك بطريقة علمية</p>
+</header>
+
+<main class="container">
+
+<section class="card" id="welcome">
+<h2>مرحباً بكِ في Sarah Lab AI 🌿</h2>
+<p>
+يساعدك هذا التطبيق على استكشاف بعض المؤشرات والأعراض
+التي قد ترتبط بنقص الفيتامينات والمعادن.
+</p>
+<div class="note">
+هذا التقييم تثقيفي أولي ولا يمثل تشخيصاً طبياً،
+ولا يغني عن الفحوصات المخبرية.
+</div>
+<button onclick="startAssessment()">ابدئي الآن</button>
+</section>
+
+<section class="card hidden" id="assessment">
+<h2>التقييم الصحي الأولي</h2>
+<p>أجيبي عن الأسئلة حسب حالتك الحالية.</p>
+<div id="questions"></div>
+<button onclick="showResults()">عرض نتيجة التقييم</button>
+<button class="secondary" onclick="resetApp()">إعادة التقييم</button>
+</section>
+
+<section class="card hidden" id="results">
+<h2>نتائج التقييم</h2>
+<div id="resultContent"></div>
+<button onclick="resetApp()">بدء تقييم جديد</button>
+</section>
+
+</main>
+
+<footer>
+Sarah Lab AI © 2026
+<br>
+المعلومات تثقيفية ولا تغني عن استشارة الطبيب.
+</footer>
+
+<script>
+const questions = [
+{
+ group:"iron",
+ title:"هل تشعرين بالتعب والإرهاق بصورة متكررة؟"
+},
+{
+ group:"iron",
+ title:"هل تعانين من الدوخة أو الصداع المتكرر؟"
+},
+{
+ group:"iron",
+ title:"هل تلاحظين شحوباً في البشرة أو داخل الجفن؟"
+},
+{
+ group:"iron",
+ title:"هل تعانين من تساقط الشعر؟"
+},
+{
+ group:"iron",
+ title:"هل تعانين من ضيق التنفس أو خفقان القلب عند بذل مجهود؟"
+},
+{
+ group:"iron",
+ title:"هل تعانين من غزارة الدورة الشهرية؟"
+},
+{
+ group:"iron",
+ title:"هل تتناولين اللحوم ومصادر الحديد بصورة قليلة؟"
+},
+{
+ group:"vitd",
+ title:"هل تشعرين بآلام متكررة في العظام؟"
+},
+{
+ group:"vitd",
+ title:"هل تعانين من ضعف العضلات؟"
+},
+{
+ group:"vitd",
+ title:"هل تتعرضين لأشعة الشمس بصورة قليلة؟"
+},
+{
+ group:"vitd",
+ title:"هل سبق أن ظهر لديك نقص في فيتامين D بالتحليل؟"
+},
+{
+ group:"general",
+ title:"هل تعانين من فقدان الشهية أو تغير ملحوظ في الوزن؟"
+},
+{
+ group:"general",
+ title:"هل تعانين من أعراض مستمرة في الجهاز الهضمي؟"
+}
+];
+
+function startAssessment(){
+ document.getElementById("welcome").classList.add("hidden");
+ document.getElementById("assessment").classList.remove("hidden");
+ renderQuestions();
+}
+
+function renderQuestions(){
+ const area=document.getElementById("questions");
+ area.innerHTML="";
+
+ questions.forEach((q,i)=>{
+  const div=document.createElement("div");
+  div.className="question";
+  div.innerHTML=`
+   <p>${i+1}. ${q.title}</p>
+   <label><input type="radio" name="q${i}" value="yes"> نعم</label>
+   <label><input type="radio" name="q${i}" value="no"> لا</label>
+   <label><input type="radio" name="q${i}" value="unknown"> غير متأكدة</label>
+  `;
+  area.appendChild(div);
+ });
+}
+
+function showResults(){
+ let unanswered=questions.some((q,i)=>
+  !document.querySelector('input[name="q'+i+'"]:checked')
+ );
+
+ if(unanswered){
+  alert("يرجى الإجابة عن جميع الأسئلة أو اختيار غير متأكدة.");
+  return;
+ }
+
+ let iron=0,vitd=0,general=0;
+
+ questions.forEach((q,i)=>{
+  const answer=document.querySelector('input[name="q'+i+'"]:checked').value;
+  if(answer==="yes"){
+   if(q.group==="iron") iron++;
+   if(q.group==="vitd") vitd++;
+   if(q.group==="general") general++;
+  }
+ });
+
+ let html=`
+ <p>شكراً لإكمال التقييم.</p>
+ <div class="result">
+ <h3>مؤشرات الحديد</h3>
+ ${iron>=4?
+ "ظهرت عدة أعراض وعوامل قد تستدعي التحقق من حالة الحديد وفقر الدم.":
+ iron>=2?
+ "ظهرت بعض المؤشرات التي قد تستدعي إجراء فحوصات عند استمرار الأعراض.":
+ "عدد المؤشرات المسجلة قليل، لكن هذا لا يستبعد نقص الحديد."
+ }
+ <p>الفحوصات المقترحة:</p>
+ <ul>
+ <li>CBC صورة الدم الكاملة</li>
+ <li>Serum Ferritin مخزون الحديد</li>
+ <li>Iron Profile عند الحاجة</li>
+ </ul>
+ </div>
+
+ <div class="result">
+ <h3>مؤشرات فيتامين D</h3>
+ ${vitd>=3?
+ "ظهرت عدة مؤشرات تستحق التحقق من مستوى فيتامين D.":
+ vitd>=1?
+ "ظهرت بعض المؤشرات التي قد تستدعي التحقق من مستوى فيتامين D.":
+ "لم تظهر مؤشرات كثيرة مرتبطة بفيتامين D ضمن إجاباتك."
+ }
+ <p>الفحص المقترح:</p>
+ <ul>
+ <li>25-OH Vitamin D</li>
+ </ul>
+ </div>
+
+ <div class="result">
+ <h3>مؤشرات صحية عامة</h3>
+ ${general>0?
+ "توجد أعراض عامة قد ترتبط بأسباب صحية متعددة، ويجب تقييمها حسب الحالة.":
+ "لم تسجلي أعراضاً عامة إضافية ضمن هذه الأسئلة."
+ }
+ </div>
+
+ <div class="note">
+ <strong>ملاحظة علمية مهمة:</strong>
+ الأعراض المذكورة غير نوعية، ولا يمكن تحديد وجود نقص الحديد
+ أو فيتامين D أو استبعاده اعتماداً على عدد الإجابات.
+ النتيجة ليست تشخيصاً ولا تمثل نسبة احتمالية طبية مثبتة.
+ يجب تفسير الفحوصات وفق التاريخ الصحي والعمر والأعراض
+ والمجالات المرجعية للمختبر.
+ </div>
+
+ <div class="result">
+ <strong>متى يجب طلب المساعدة الطبية؟</strong>
+ إذا ظهر ألم صدر أو ضيق نفس شديد أو إغماء أو نزف شديد،
+ فيجب طلب تقييم طبي عاجل.
+ </div>
+ `;
+
+ document.getElementById("assessment").classList.add("hidden");
+ document.getElementById("results").classList.remove("hidden");
+ document.getElementById("resultContent").innerHTML=html;
+ window.scrollTo(0,0);
+}
+
+function resetApp(){
+ document.getElementById("welcome").classList.remove("hidden");
+ document.getElementById("assessment").classList.add("hidden");
+ document.getElementById("results").classList.add("hidden");
+ document.getElementById("questions").innerHTML="";
+ window.scrollTo(0,0);
+}
+</script>
+
 </body>
 </html>
